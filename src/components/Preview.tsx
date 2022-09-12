@@ -1,9 +1,10 @@
+import { Box } from '@mui/material';
 import styled from 'styled-components';
-import { Section } from './Section';
 
-const Inner = styled(Section)`
+const Inner = styled(Box)`
   grid-area: preview;
-  background-color: blue;
+  background-color: rgb(245, 245, 245);
+  padding: ${ props => props.theme.spacing(4) };
 `;
 
 export const Preview = (): JSX.Element => (
