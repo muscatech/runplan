@@ -1,15 +1,19 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux'
 
 import { IconButton, MenuItem, ListItemText, ListItemIcon, Typography } from '@mui/material';
 import { default as MUIMenu } from '@mui/material/Menu';
 
 import AddIcon from '@mui/icons-material/Add';
 import MenuIcon from '@mui/icons-material/Menu';
+import { actions } from '../../dialogs';
 
 export const Menu = () => {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const dispatch = useDispatch();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -17,6 +21,14 @@ export const Menu = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const newPlan = useCallback(
+    () => {
+      dispatch(actions.show('newPlan'))
+      handleClose();
+    },
+    []
+  )
 
   return (
     <div>
@@ -44,7 +56,7 @@ export const Menu = () => {
           'sx': { width: 320, maxWidth: '100%' }
         }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={newPlan}>
           <ListItemIcon>
             <AddIcon fontSize="small" />
           </ListItemIcon>
