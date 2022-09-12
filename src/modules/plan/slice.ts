@@ -6,17 +6,17 @@ import { createPlan } from './functions';
 
 interface Plans {
   [index: string]: Plan
-};
+}
 
 export interface PlansState {
   currentPlan?: string,
   plans: Plans
-};
+}
 
 const initialState: PlansState = {
   currentPlan: undefined,
   plans: {}
-}
+};
 
 export const plansSlice = createSlice({
   name: 'plans',

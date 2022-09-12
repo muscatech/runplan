@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
 
 import { IconButton, MenuItem, ListItemText, ListItemIcon, Typography } from '@mui/material';
 import { default as MUIMenu } from '@mui/material/Menu';
@@ -24,48 +24,51 @@ export const Menu = () => {
 
   const newPlan = useCallback(
     () => {
-      dispatch(actions.show('newPlan'))
+      dispatch(actions.show('newPlan'));
       handleClose();
     },
     []
-  )
+  );
 
   return (
     <div>
       <IconButton
-        id="basic-button"
         aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
+        aria-haspopup="true"
+        aria-label="menu"
+        color="inherit"
+        edge="start"
+        id="basic-button"
         onClick={handleClick}
         size="large"
-        edge="start"
-        color="inherit"
-        aria-label="menu"
         sx={{ mr: 2 }}
       >
         <MenuIcon />
       </IconButton>
       <MUIMenu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
         MenuListProps={{
           'aria-labelledby': 'basic-button',
           'sx': { width: 320, maxWidth: '100%' }
         }}
+        anchorEl={anchorEl}
+        id="basic-menu"
+        onClose={handleClose}
+        open={open}
       >
         <MenuItem onClick={newPlan}>
           <ListItemIcon>
             <AddIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText>New plan</ListItemText>
-          <Typography variant="body2" color="text.secondary">
+          <Typography
+            color="text.secondary"
+            variant="body2"
+          >
             ⌘N
           </Typography>
         </MenuItem>
       </MUIMenu>
     </div>
   );
-}
+};

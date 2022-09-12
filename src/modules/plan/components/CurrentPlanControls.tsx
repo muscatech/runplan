@@ -5,5 +5,5 @@ interface Props {
 }
 
 export const CurrentPlanControls = ({ plan }: Props) : JSX.Element => {
-  return <p>{plan.name}</p>
-}
+  return <p>{plan.name}</p>;
+};

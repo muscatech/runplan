@@ -9,4 +9,4 @@ export const currentPlanSelector = (): Plan | undefined => {
   const currentPlanId = useSelector((state: RootState) => state.plans.currentPlan);
 
   return currentPlanId ? all[currentPlanId] : undefined;
-}
+};

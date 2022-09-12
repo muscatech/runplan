@@ -25,7 +25,7 @@ export const NewPlanDialog = () => {
   const submit = () => {
     dispatch(createNew(planName));
     close();
-  }
+  };
 
   return (
     <Dialog
@@ -54,5 +54,5 @@ export const NewPlanDialog = () => {
         </Button>
       </DialogActions>
     </Dialog>
-  )
+  );
 };

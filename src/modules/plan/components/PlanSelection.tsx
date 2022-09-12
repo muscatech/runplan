@@ -8,13 +8,13 @@ export const PlanSelection = (): JSX.Element => {
   if (allPlans.length > 0) {
     return (
       <p>You have created {allPlans.length} plan(s)</p>
-    )
+    );
   }
   else {
     return (
       <p>You've not created a plan yet.</p>
-    )
+    );
 
   }
 
-}
+};

@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface DialogState {
   currentDialog: null | string
-};
+}
 
 const initialState: DialogState = {
   currentDialog: null

@@ -15,7 +15,7 @@ function App() {
         <NewPlanDialog />
       </ThemeProvider>
     </Provider>
-  )
+  );
 }
 
 export default App;

@@ -15,7 +15,11 @@ export const Menubar = (): JSX.Element => (
   <Inner position='static'>
     <Toolbar>
       <Menu />
-      <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+      <Typography
+        component="div"
+        sx={{ flexGrow: 1 }}
+        variant="h6"
+      >
         RunPlan
       </Typography>
     </Toolbar>

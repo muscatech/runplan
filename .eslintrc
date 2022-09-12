@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/jsx-runtime"
+  ],
+  "rules": {
+    "no-console": "warn",
+    "object-curly-spacing": ["warn", "always"],
+    "semi": "warn",
+    "react/jsx-first-prop-new-line": ["warn", "multiline"],
+    "react/jsx-indent": ["warn", 2],
+    "react/jsx-indent-props": ["warn", 2],
+    "react/jsx-no-duplicate-props": "warn",
+    "react/jsx-sort-props": "warn",
+    "react/jsx-max-props-per-line": ["warn", { "maximum": 1 }],
+    "react/jsx-closing-bracket-location": "warn"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}
