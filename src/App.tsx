@@ -1,15 +1,15 @@
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from '@mui/material/styles';
 import { Provider } from 'react-redux';
 
 import { Page } from './components';
-import { Theme } from './theme';
+import { theme } from './theme';
 
 import { store } from './store';
 
 function App() {
   return (
     <Provider store={store}>
-      <ThemeProvider theme={Theme}>
+      <ThemeProvider theme={theme}>
         <Page />
       </ThemeProvider>
     </Provider>

@@ -25,7 +25,8 @@ const GlobalStyle = createGlobalStyle`
     width: 100vw;
     height: 100vh;
 
-    font-family: ${ props => props.theme.font.family }
+    font-family: ${ props => props.theme.typography.fontFamily };
+    font-size: ${ props => props.theme.typography.fontSize };
   }
 `;
 

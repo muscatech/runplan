@@ -1,10 +1,5 @@
-import { DefaultTheme } from 'styled-components';
+import type { Theme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
-export const Theme: DefaultTheme = {
-  font: {
-    family: 'Arial, sans-serif',
-  },
-  sections: {
-    padding: '0.5em'
-  }
-};
+export const theme: Theme = createTheme({
+});
