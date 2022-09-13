@@ -7,6 +7,7 @@ export function createPlan(name: string): Plan {
 
   return {
     id,
-    name
+    name,
+    items: []
   };
 }

@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import type { Plan } from "../interfaces";
 import { updatePlan } from "../slice";
+import { AddItemButton } from "./AddItemButton";
 
 interface Props {
   plan: Plan
@@ -42,6 +43,7 @@ export const CurrentPlanControls = ({ plan }: Props) : JSX.Element => {
           onChange={(e) => handleUpdate({ name: e.target.value })}
           value={plan.name}
         />
+        <AddItemButton planID={plan.id} />
       </Box>
     </Paper>
   );

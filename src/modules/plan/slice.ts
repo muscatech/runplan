@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 import type { Plan } from './interfaces';
 import { createPlan } from './functions';
+import type { ItemType } from '../itemTypes/interfaces';
 
 interface Plans {
   [index: string]: Plan
@@ -18,6 +19,11 @@ const initialState: PlansState = {
   plans: {}
 };
 
+interface AddItemOptions {
+  planID: string,
+  type: ItemType
+}
+
 export const plansSlice = createSlice({
   name: 'plans',
   initialState,
@@ -32,9 +38,22 @@ export const plansSlice = createSlice({
         ...state.plans[action.payload.id],
         ...action.payload
       };
+    },
+    addItem: (state, action: PayloadAction<AddItemOptions>) => {
+      const currentPlan = state.plans[action.payload.planID];
+      state.plans[action.payload.planID] = {
+        ...currentPlan,
+        items: [
+          ...currentPlan.items,
+          {
+            type: action.payload.type.id,
+            name: `New ${action.payload.type.name}`
+          }
+        ]
+      };
     }
   }
 });
 
-export const { createNew, updatePlan } = plansSlice.actions;
+export const { addItem, createNew, updatePlan } = plansSlice.actions;
 export default plansSlice.reducer;
