@@ -1,14 +1,22 @@
 import { Box } from '@mui/material';
 import styled from 'styled-components';
+import { RenderedPlan } from '../modules/plan';
+import { currentPlanSelector } from '../modules/plan/selectors';
 
 const Inner = styled(Box)`
   grid-area: preview;
-  background-color: rgb(245, 245, 245);
   padding: ${ props => props.theme.spacing(4) };
+
+  overflow-y: auto;
 `;
 
-export const Preview = (): JSX.Element => (
-  <Inner>
-    Preview here
-  </Inner>
-);
+export const Preview = (): JSX.Element => {
+
+  const currentPlan = currentPlanSelector();
+
+  return (
+    <Inner>
+      { currentPlan ? <RenderedPlan plan={currentPlan} /> : null }
+    </Inner>
+  );
+};

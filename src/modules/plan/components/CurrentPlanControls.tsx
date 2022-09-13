@@ -1,4 +1,4 @@
-import { Paper, TextField } from "@mui/material";
+import { Box, Paper, TextField } from "@mui/material";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import type { Plan } from "../interfaces";
@@ -25,14 +25,24 @@ export const CurrentPlanControls = ({ plan }: Props) : JSX.Element => {
   );
 
   return (
-    <Paper>
-      <TextField
-        fullWidth
-        label='Plan name'
-        margin="dense"
-        onChange={(e) => handleUpdate({ name: e.target.value })}
-        value={plan.name}
-      />
+    <Paper
+      sx={{
+        height: '100%',
+      }}
+    >
+      <Box
+        sx={{
+          padding: 2
+        }}
+      >
+        <TextField
+          fullWidth
+          label='Plan name'
+          margin="dense"
+          onChange={(e) => handleUpdate({ name: e.target.value })}
+          value={plan.name}
+        />
+      </Box>
     </Paper>
   );
 };

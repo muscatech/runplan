@@ -27,6 +27,8 @@ const GlobalStyle = createGlobalStyle`
 
     font-family: ${ props => props.theme.typography.fontFamily };
     font-size: ${ props => props.theme.typography.fontSize };
+
+    background-color: rgb(245, 245, 245);
   }
 `;
 
