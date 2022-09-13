@@ -12,7 +12,7 @@ export const PlanSelection = (): JSX.Element => {
   }
   else {
     return (
-      <p>You've not created a plan yet.</p>
+      <p>You&apos;ve not created a plan yet.</p>
     );
 
   }
