@@ -35,7 +35,7 @@ export const AddItemButton = ({ planID }: Props) => {
     handleClose();
   };
 
-  const allTypes = itemTypeSelectors.allItemTypes();
+  const allTypes: ItemType[] = itemTypeSelectors.allItemTypes();
 
   return (
     <>
@@ -60,7 +60,7 @@ export const AddItemButton = ({ planID }: Props) => {
       >
         {
           Object.values(allTypes).map(
-            (t) => (
+            (t: ItemType) => (
               <ItemTypeOption
                 it={t}
                 key={t.id}
