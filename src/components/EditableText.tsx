@@ -7,14 +7,15 @@ import type { SxProps } from '@mui/system';
 import type { KeyboardEvent } from 'react';
 
 interface Props {
+  edit?: boolean,
   onChange: (text: string) => void,
   sx?: SxProps,
   value: string,
   variant?: OverridableStringUnion<Variant | 'inherit', TypographyPropsVariantOverrides>
 }
 
-export const EditableText = ({ onChange, sx, value, variant }: Props) => {
-  const [isEditing, setEditing] = useState(false);
+export const EditableText = ({ edit, onChange, sx, value, variant }: Props) => {
+  const [isEditing, setEditing] = useState(edit);
 
   const [localValue, setLocalValue] = useState(value);
 
@@ -30,7 +31,7 @@ export const EditableText = ({ onChange, sx, value, variant }: Props) => {
       setLocalValue(value);
       setEditing(true);
     },
-    []
+    [value]
   );
 
   const handleKeypress = (e: KeyboardEvent) => {
@@ -63,9 +64,12 @@ export const EditableText = ({ onChange, sx, value, variant }: Props) => {
       <TextField
         autoFocus
         fullWidth
-        onBlur={() => setEditing(false)}
+        margin='none'
+        //onBlur={() => setEditing(false)}
         onChange={(e) => setLocalValue(e.target.value)}
+        onFocus={(e) => e.target.select()}
         onKeyUp={handleKeypress}
+        size='small'
         sx={sx}
         value={localValue}
       />

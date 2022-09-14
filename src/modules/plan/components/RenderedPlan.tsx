@@ -1,7 +1,7 @@
 import { Paper } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { EditableText } from "../../../components/EditableText";
-import type { Plan } from "../interfaces";
+import type { Item, Plan } from "../interfaces";
 import { updatePlan } from "../slice";
 import { RenderedPlanItems } from "./RenderedPlanItems";
 
@@ -27,7 +27,10 @@ export const RenderedPlan = ({ plan }: Props): JSX.Element => {
         value={plan.name}
         variant="h4"
       />
-      <RenderedPlanItems items={plan.items} />
+      <RenderedPlanItems
+        items={plan.items}
+        onUpdate={(newItems: Item[]) => commitUpdate({ ...plan, items: newItems })}
+      />
     </Paper>
   );
 };

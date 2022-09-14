@@ -47,7 +47,8 @@ export const plansSlice = createSlice({
           ...currentPlan.items,
           {
             type: action.payload.type.id,
-            name: `New ${action.payload.type.name}`
+            name: `New ${action.payload.type.name}`,
+            isNew: true
           }
         ]
       };

@@ -1,10 +1,12 @@
 import styled from "styled-components";
+import { EditableText } from "../../../components/EditableText";
 import { ItemType } from "../../itemTypes/interfaces";
 import { allItemTypes } from "../../itemTypes/selectors";
 import { Item } from "../interfaces";
 
 interface Props {
-  items: Item[]
+  items: Item[],
+  onUpdate?: (items: Item[]) => void
 }
 
 const ItemsTable = styled.table`
@@ -24,7 +26,7 @@ const ItemsTable = styled.table`
 
 `;
 
-const ItemRow = ({ item, type }: { item: Item, type: ItemType }) => {
+const ItemRow = ({ item, onUpdate, type }: { item: Item, onUpdate: (item: Item) => void, type: ItemType }) => {
 
   const typeStyle = { backgroundColor: type.color, fontWeight: 'bold' };
 
@@ -37,7 +39,11 @@ const ItemRow = ({ item, type }: { item: Item, type: ItemType }) => {
         }
       </td>
       <td style={typeStyle}>
-        {item.name}
+        <EditableText
+          edit={item.isNew}
+          onChange={(newName) => onUpdate({ ...item, name: newName })}
+          value={item.name}
+        />
       </td>
       <td>
         {item.remark}
@@ -46,9 +52,24 @@ const ItemRow = ({ item, type }: { item: Item, type: ItemType }) => {
   );
 };
 
-export const RenderedPlanItems = ({ items }: Props) => {
+export const RenderedPlanItems = ({ items, onUpdate }: Props) => {
 
   const itemTypes = allItemTypes();
+
+  const updateItem = (idx: number) => (newItem: Item) => {
+    if (onUpdate) {
+      const newItems = [...items];
+      delete newItem.isNew;
+      if (newItem.name) {
+        newItems.splice(idx, 1, newItem);
+      }
+      else {
+        newItems.splice(idx, 1);
+      }
+      onUpdate(newItems);
+    }
+  };
+
 
   return (
     <ItemsTable>
@@ -65,6 +86,7 @@ export const RenderedPlanItems = ({ items }: Props) => {
               <ItemRow
                 item={item}
                 key={idx}
+                onUpdate={updateItem(idx)}
                 type={itemTypes[item.type]}
               />
             )
