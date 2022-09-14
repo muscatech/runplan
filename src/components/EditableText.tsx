@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const EditableText = ({ edit, onChange, sx, value, variant }: Props) => {
-  const [isEditing, setEditing] = useState(edit);
+  const [isEditing, setEditing] = useState(false);
 
   const [localValue, setLocalValue] = useState(value);
 
@@ -32,6 +32,15 @@ export const EditableText = ({ edit, onChange, sx, value, variant }: Props) => {
       setEditing(true);
     },
     [value]
+  );
+
+  useEffect(
+    () => {
+      if (edit) {
+        beginEditing();
+      }
+    },
+    [edit]
   );
 
   const handleKeypress = (e: KeyboardEvent) => {
@@ -65,7 +74,7 @@ export const EditableText = ({ edit, onChange, sx, value, variant }: Props) => {
         autoFocus
         fullWidth
         margin='none'
-        //onBlur={() => setEditing(false)}
+        onBlur={() => setEditing(false)}
         onChange={(e) => setLocalValue(e.target.value)}
         onFocus={(e) => e.target.select()}
         onKeyUp={handleKeypress}
