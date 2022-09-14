@@ -1,17 +1,19 @@
-import { Paper, Typography } from "@mui/material";
-import { styled } from "@mui/system";
+import { Paper } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { EditableText } from "../../../components/EditableText";
 import type { Plan } from "../interfaces";
+import { updatePlan } from "../slice";
 import { RenderedPlanItems } from "./RenderedPlanItems";
 
 interface Props {
   plan: Plan
 }
 
-const PlanName = styled(Typography)({
-  textAlign: 'right'
-});
-
 export const RenderedPlan = ({ plan }: Props): JSX.Element => {
+
+  const dispatch = useDispatch();
+  const commitUpdate = (plan: Plan) => dispatch(updatePlan(plan));
+
   return (
     <Paper
       sx={{
@@ -19,9 +21,12 @@ export const RenderedPlan = ({ plan }: Props): JSX.Element => {
         padding: [2, 8]
       }}
     >
-      <PlanName variant="h4">
-        {plan.name}
-      </PlanName>
+      <EditableText
+        onChange={(newName) => commitUpdate({ ...plan, name: newName })}
+        sx={{ textAlign: 'right', width: '100%' }}
+        value={plan.name}
+        variant="h4"
+      />
       <RenderedPlanItems items={plan.items} />
     </Paper>
   );
