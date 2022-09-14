@@ -8,6 +8,9 @@ import {
 
 import { actions as dialogActions, selectors as dialogSelectors } from '../../dialogs';
 import { addNew } from '../slice';
+import { ColorPicker } from '../../../components/ColorPicker';
+
+
 
 export const NewItemTypeDialog = () => {
 
@@ -15,7 +18,7 @@ export const NewItemTypeDialog = () => {
   const isOpen = currentDialog === 'newItemType';
   const dispatch = useDispatch();
 
-  const [it, setIt] = useState({ name: '', color: 'white' });
+  const [it, setIt] = useState({ name: '', color: '#ffffff' });
 
   const close = () => {
     dispatch(dialogActions.hide());
@@ -40,7 +43,14 @@ export const NewItemTypeDialog = () => {
           margin="dense"
           onChange={e => setIt(i => ({ ...i, name: e.target.value }))}
           required
+          sx={{
+            backgroundColor: it.color
+          }}
           value={it.name}
+        />
+        <ColorPicker
+          onChange={c => setIt(i => ({ ...i, color: c }))}
+          value={it.color}
         />
       </DialogContent>
       <DialogActions>
