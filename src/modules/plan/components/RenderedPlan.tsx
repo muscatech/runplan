@@ -22,7 +22,7 @@ export const RenderedPlan = ({ plan }: Props): JSX.Element => {
       }}
     >
       <EditableText
-        onChange={(newName) => commitUpdate({ ...plan, name: newName })}
+        onChange={(newName) => newName !== '' && commitUpdate({ ...plan, name: newName })}
         sx={{ textAlign: 'right', width: '100%' }}
         value={plan.name}
         variant="h4"
