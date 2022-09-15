@@ -7,7 +7,7 @@ import { Item } from "../interfaces";
 
 interface Props {
   items: Item[],
-  onUpdate?: (items: Item[]) => void
+  onUpdate?: (idx: number, item: Item) => void
 }
 
 const ItemsTable = styled.table`
@@ -71,15 +71,7 @@ export const RenderedPlanItems = ({ items, onUpdate }: Props) => {
 
   const updateItem = (idx: number) => (newItem: Item) => {
     if (onUpdate) {
-      const newItems = [...items];
-      delete newItem.isNew;
-      if (newItem.name) {
-        newItems.splice(idx, 1, newItem);
-      }
-      else {
-        newItems.splice(idx, 1);
-      }
-      onUpdate(newItems);
+      onUpdate(idx, newItem);
     }
   };
 

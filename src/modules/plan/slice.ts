@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import type { Plan } from './interfaces';
+import type { Item, Plan } from './interfaces';
 import { createPlan } from './functions';
 import type { ItemType } from '../itemTypes/interfaces';
 
@@ -24,22 +24,28 @@ interface AddItemOptions {
   type: ItemType
 }
 
+interface UpdatePlanItemOptions {
+  planID: string,
+  itemIndex: number,
+  item: Item
+}
+
 export const plansSlice = createSlice({
   name: 'plans',
   initialState,
   reducers: {
-    createNew: (state, action: PayloadAction<string>) => {
+    createNew: (state: PlansState, action: PayloadAction<string>) => {
       const newPlan: Plan = createPlan(action.payload);
       state.plans[newPlan.id] = newPlan;
       state.currentPlan = newPlan.id;
     },
-    updatePlan: (state, action: PayloadAction<Plan>) => {
+    updatePlan: (state: PlansState, action: PayloadAction<Plan>) => {
       state.plans[action.payload.id] = {
         ...state.plans[action.payload.id],
         ...action.payload
       };
     },
-    addItem: (state, action: PayloadAction<AddItemOptions>) => {
+    addItem: (state: PlansState, action: PayloadAction<AddItemOptions>) => {
       const currentPlan = state.plans[action.payload.planID];
       state.plans[action.payload.planID] = {
         ...currentPlan,
@@ -52,9 +58,22 @@ export const plansSlice = createSlice({
           }
         ]
       };
+    },
+    updatePlanItem: (state: PlansState, action:PayloadAction<UpdatePlanItemOptions>) => {
+      const currentPlan = state.plans[action.payload.planID];
+      const currentItem = currentPlan.items[action.payload.itemIndex];
+
+      const newItem = { ...currentItem, ...action.payload.item };
+
+      if (newItem.name === '') {
+        currentPlan.items.splice(action.payload.itemIndex, 1);
+      }
+      else {
+        currentPlan.items.splice(action.payload.itemIndex, 1, newItem);
+      }
     }
   }
 });
 
-export const { addItem, createNew, updatePlan } = plansSlice.actions;
+export const { addItem, createNew, updatePlan, updatePlanItem } = plansSlice.actions;
 export default plansSlice.reducer;

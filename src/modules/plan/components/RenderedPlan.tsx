@@ -2,7 +2,7 @@ import { Paper } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { EditableText } from "../../../components/EditableText";
 import type { Item, Plan } from "../interfaces";
-import { updatePlan } from "../slice";
+import { updatePlan, updatePlanItem } from "../slice";
 import { RenderedPlanItems } from "./RenderedPlanItems";
 
 interface Props {
@@ -29,7 +29,7 @@ export const RenderedPlan = ({ plan }: Props): JSX.Element => {
       />
       <RenderedPlanItems
         items={plan.items}
-        onUpdate={(newItems: Item[]) => commitUpdate({ ...plan, items: newItems })}
+        onUpdate={(idx: number, item: Item) => dispatch(updatePlanItem({ planID: plan.id, itemIndex: idx, item }))}
       />
     </Paper>
   );
