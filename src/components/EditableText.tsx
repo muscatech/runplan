@@ -60,7 +60,10 @@ export const EditableText = ({ edit, onChange, sx, value, variant }: Props) => {
         onClick={() => beginEditing()}
         sx={{
           ...sx,
-          cursor: 'pointer'
+          cursor: 'pointer',
+          fontWeight: 'inherit',
+          minHeight: '1em',
+          width: '100%'
         }}
         variant={variant}
       >

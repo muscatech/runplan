@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import styled from "styled-components";
 import { EditableText } from "../../../components/EditableText";
 import { ItemType } from "../../itemTypes/interfaces";
@@ -21,32 +22,44 @@ const ItemsTable = styled.table`
 
   & td {
     border: 1px solid black;
-    padding: ${props => props.theme.spacing(1)};
+    vertical-align: top;
   }
 
 `;
 
+const ITEM_CELL_PADDING = 0.5;
+
 const ItemRow = ({ item, onUpdate, type }: { item: Item, onUpdate: (item: Item) => void, type: ItemType }) => {
 
   const typeStyle = { backgroundColor: type.color, fontWeight: 'bold' };
+  const typographyStyle = {
+    fontFamily: 'inherit',
+    fontWeight: 'inherit',
+    padding: ITEM_CELL_PADDING
+  };
 
   return (
     <tr>
       <td></td>
       <td style={typeStyle}>
-        {
-          type.name
-        }
+        <Typography sx={typographyStyle}>
+          { type.name }
+        </Typography>
       </td>
       <td style={typeStyle}>
         <EditableText
           edit={item.isNew}
           onChange={(newName) => onUpdate({ ...item, name: newName })}
+          sx={typographyStyle}
           value={item.name}
         />
       </td>
       <td>
-        {item.remark}
+        <EditableText
+          onChange={(newRemark) => onUpdate({ ...item, remark: newRemark })}
+          sx={typographyStyle}
+          value={item.remark || ''}
+        />
       </td>
     </tr>
   );
@@ -77,7 +90,7 @@ export const RenderedPlanItems = ({ items, onUpdate }: Props) => {
         <col width='10%' />
         <col width='15%' />
         <col />
-        <col width='15%' />
+        <col width='20%' />
       </colgroup>
       <tbody>
         {
