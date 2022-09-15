@@ -5,7 +5,7 @@ import { currentPlanSelector } from '../modules/plan/selectors';
 
 const Inner = styled(Box)`
   grid-area: preview;
-  padding: ${ props => props.theme.spacing(4) };
+  padding: ${ props => props.theme.spacing(4) } ${ props => props.theme.spacing(16) };
 
   overflow-y: auto;
 `;

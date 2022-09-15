@@ -1,5 +1,4 @@
 import styled, { createGlobalStyle } from 'styled-components';
-import { Statusbar } from "../Statusbar";
 import { Controls } from "./Controls";
 import { Menubar } from "./Menubar";
 import { Preview } from './Preview';
@@ -8,9 +7,9 @@ import { Preview } from './Preview';
 const PageInner = styled.div`
 
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  grid-template-areas: "menu menu" "controls preview" "statusbar statusbar";
+  grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-areas: "menu menu" "controls preview";
 
   height: 100%;
 
@@ -40,7 +39,6 @@ export const Page = (): JSX.Element => {
         <Menubar />
         <Controls />
         <Preview />
-        <Statusbar />
       </PageInner>
     </>
   );

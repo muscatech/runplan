@@ -17,7 +17,7 @@ export const RenderedPlan = ({ plan }: Props): JSX.Element => {
   return (
     <Paper
       sx={{
-        minHeight: '80vh',
+        minHeight: '60vh',
         padding: [2, 8]
       }}
     >
