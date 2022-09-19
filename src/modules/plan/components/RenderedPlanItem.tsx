@@ -134,7 +134,6 @@ export const RenderedPlanItem = ({ editable, index, item, onMove, onUpdate, type
         <EditableText
           edit={item.isNew && editable}
           locked={!editable || isDragging}
-          onBlur={updateItem}  // Remove the "new item" flag when name is initially blurred
           onChange={(newName) => updateItem({ name: newName })}
           sx={typographyStyle}
           value={item.name}

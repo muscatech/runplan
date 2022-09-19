@@ -9,14 +9,13 @@ import type { KeyboardEvent } from 'react';
 interface Props {
   edit?: boolean,
   locked?: boolean,
-  onBlur?: () => void,
   onChange: (text: string) => void,
   sx?: SxProps,
   value: string,
   variant?: OverridableStringUnion<Variant | 'inherit', TypographyPropsVariantOverrides>
 }
 
-export const EditableText = ({ edit, locked, onBlur, onChange, sx, value, variant }: Props) => {
+export const EditableText = ({ edit, locked, onChange, sx, value, variant }: Props) => {
   const [isEditing, setEditing] = useState(false);
 
   const [localValue, setLocalValue] = useState(value);
@@ -59,8 +58,8 @@ export const EditableText = ({ edit, locked, onBlur, onChange, sx, value, varian
   };
 
   const handleBlur = () => {
+    onChange(localValue);
     setEditing(false);
-    onBlur && onBlur();
   };
 
   if (!isEditing) {
