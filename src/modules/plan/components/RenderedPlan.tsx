@@ -2,7 +2,7 @@ import { Paper } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { EditableText } from "../../../components/EditableText";
 import type { Item, Plan } from "../interfaces";
-import { updatePlan, updatePlanItem } from "../slice";
+import { movePlanItem, updatePlan, updatePlanItem } from "../slice";
 import { RenderedPlanItems } from "./RenderedPlanItems";
 
 interface Props {
@@ -35,6 +35,9 @@ export const RenderedPlan = ({ editable, plan }: Props): JSX.Element => {
       <RenderedPlanItems
         editable={editable}
         items={plan.items}
+        onMoveItem={(fromIdx: number, toIdx: number) => {
+          dispatch(movePlanItem({ planID: plan.id, sourceIndex: fromIdx, destinationIndex: toIdx }));
+        }}
         onUpdate={(idx: number, item: Item) => dispatch(updatePlanItem({ planID: plan.id, itemIndex: idx, item }))}
       />
     </Paper>

@@ -1,4 +1,6 @@
 import { ThemeProvider } from '@mui/material/styles';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
@@ -17,7 +19,9 @@ function App() {
         persistor={persistor}
       >
         <ThemeProvider theme={theme}>
-          <Page />
+          <DndProvider backend={HTML5Backend}>
+            <Page />
+          </DndProvider>
           <NewItemTypeDialog />
           <NewPlanDialog />
         </ThemeProvider>

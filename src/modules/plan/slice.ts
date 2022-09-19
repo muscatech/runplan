@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { arrayMoveMutable } from 'array-move';
 
 import type { Item, Plan } from './interfaces';
 import { createPlan } from './functions';
@@ -28,6 +29,12 @@ interface UpdatePlanItemOptions {
   planID: string,
   itemIndex: number,
   item: Item
+}
+
+interface MovePlanItemOptions {
+  planID: string,
+  sourceIndex: number,
+  destinationIndex: number
 }
 
 export const plansSlice = createSlice({
@@ -59,7 +66,7 @@ export const plansSlice = createSlice({
         ]
       };
     },
-    updatePlanItem: (state: PlansState, action:PayloadAction<UpdatePlanItemOptions>) => {
+    updatePlanItem: (state: PlansState, action: PayloadAction<UpdatePlanItemOptions>) => {
       const currentPlan = state.plans[action.payload.planID];
       const currentItem = currentPlan.items[action.payload.itemIndex];
 
@@ -71,9 +78,14 @@ export const plansSlice = createSlice({
       else {
         currentPlan.items.splice(action.payload.itemIndex, 1, newItem);
       }
+    },
+    movePlanItem: (state: PlansState, action: PayloadAction<MovePlanItemOptions>) => {
+      const currentPlan = state.plans[action.payload.planID];
+
+      arrayMoveMutable(currentPlan.items, action.payload.sourceIndex, action.payload.destinationIndex);
     }
   }
 });
 
-export const { addItem, createNew, updatePlan, updatePlanItem } = plansSlice.actions;
+export const { addItem, createNew, movePlanItem, updatePlan, updatePlanItem } = plansSlice.actions;
 export default plansSlice.reducer;

@@ -6,6 +6,7 @@ import { RenderedPlanItem } from "./RenderedPlanItem";
 interface Props {
   editable?: boolean,
   items: Item[],
+  onMoveItem?: (oldIdx: number, newIdx: number) => void,
   onUpdate?: (idx: number, item: Item) => void
 }
 
@@ -26,16 +27,21 @@ const ItemsTable = styled.table`
 
 `;
 
-export const RenderedPlanItems = ({ editable, items, onUpdate }: Props) => {
+export const RenderedPlanItems = ({ editable, items, onMoveItem, onUpdate }: Props) => {
 
   const itemTypes = allItemTypes();
 
-  const updateItem = (idx: number) => (newItem: Item) => {
+  const updateItem = (idx: number, newItem: Item) => {
     if (onUpdate) {
       onUpdate(idx, newItem);
     }
   };
 
+  const moveItem = (oldIdx: number, newIdx: number) => {
+    if (onMoveItem) {
+      onMoveItem(oldIdx, newIdx);
+    }
+  };
 
   return (
     <ItemsTable>
@@ -51,9 +57,11 @@ export const RenderedPlanItems = ({ editable, items, onUpdate }: Props) => {
             (item, idx) => (
               <RenderedPlanItem
                 editable={editable}
+                index={idx}
                 item={item}
                 key={idx}
-                onUpdate={updateItem(idx)}
+                onMove={moveItem}
+                onUpdate={updateItem}
                 type={itemTypes[item.type]}
               />
             )
