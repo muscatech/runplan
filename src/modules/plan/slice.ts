@@ -72,6 +72,8 @@ export const plansSlice = createSlice({
 
       const newItem = { ...currentItem, ...action.payload.item };
 
+      delete newItem.isNew;
+
       if (newItem.name === '') {
         currentPlan.items.splice(action.payload.itemIndex, 1);
       }

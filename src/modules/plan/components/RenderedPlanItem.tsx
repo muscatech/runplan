@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import { Typography } from "@mui/material";
 import { useDrag, useDrop } from "react-dnd";
 import type { Identifier, XYCoord } from 'dnd-core';
@@ -110,6 +110,13 @@ export const RenderedPlanItem = ({ editable, index, item, onMove, onUpdate, type
 
   drag(drop(ref));
 
+  const updateItem = useCallback(
+    (newAttrs: object={}) => {
+      onUpdate(index, { ...item, ...newAttrs });
+    },
+    [index, item]
+  );
+
   return (
     <tr
       ref={ref}
@@ -127,7 +134,8 @@ export const RenderedPlanItem = ({ editable, index, item, onMove, onUpdate, type
         <EditableText
           edit={item.isNew && editable}
           locked={!editable || isDragging}
-          onChange={(newName) => onUpdate(index, { ...item, name: newName })}
+          onBlur={updateItem}  // Remove the "new item" flag when name is initially blurred
+          onChange={(newName) => updateItem({ name: newName })}
           sx={typographyStyle}
           value={item.name}
         />
@@ -135,7 +143,7 @@ export const RenderedPlanItem = ({ editable, index, item, onMove, onUpdate, type
       <td>
         <EditableText
           locked={!editable || isDragging}
-          onChange={(newRemark) => onUpdate(index, { ...item, remark: newRemark })}
+          onChange={(newRemark) => updateItem({ remark: newRemark })}
           sx={typographyStyle}
           value={item.remark || ''}
         />
