@@ -6,6 +6,7 @@ import { allItemTypes } from "../../itemTypes/selectors";
 import { Item } from "../interfaces";
 
 interface Props {
+  editable?: boolean,
   items: Item[],
   onUpdate?: (idx: number, item: Item) => void
 }
@@ -29,7 +30,14 @@ const ItemsTable = styled.table`
 
 const ITEM_CELL_PADDING = 0.5;
 
-const ItemRow = ({ item, onUpdate, type }: { item: Item, onUpdate: (item: Item) => void, type: ItemType }) => {
+interface ItemRowProps {
+  editable?: boolean,
+  item: Item,
+  onUpdate: (item: Item) => void,
+  type: ItemType
+}
+
+const ItemRow = ({ editable, item, onUpdate, type }: ItemRowProps) => {
 
   const typeStyle = { backgroundColor: type.color, fontWeight: 'bold' };
   const typographyStyle = {
@@ -48,7 +56,8 @@ const ItemRow = ({ item, onUpdate, type }: { item: Item, onUpdate: (item: Item) 
       </td>
       <td style={typeStyle}>
         <EditableText
-          edit={item.isNew}
+          edit={item.isNew && editable}
+          locked={!editable}
           onChange={(newName) => onUpdate({ ...item, name: newName })}
           sx={typographyStyle}
           value={item.name}
@@ -56,6 +65,7 @@ const ItemRow = ({ item, onUpdate, type }: { item: Item, onUpdate: (item: Item) 
       </td>
       <td>
         <EditableText
+          locked={!editable}
           onChange={(newRemark) => onUpdate({ ...item, remark: newRemark })}
           sx={typographyStyle}
           value={item.remark || ''}
@@ -65,7 +75,7 @@ const ItemRow = ({ item, onUpdate, type }: { item: Item, onUpdate: (item: Item) 
   );
 };
 
-export const RenderedPlanItems = ({ items, onUpdate }: Props) => {
+export const RenderedPlanItems = ({ editable, items, onUpdate }: Props) => {
 
   const itemTypes = allItemTypes();
 
@@ -89,6 +99,7 @@ export const RenderedPlanItems = ({ items, onUpdate }: Props) => {
           items.map(
             (item, idx) => (
               <ItemRow
+                editable={editable}
                 item={item}
                 key={idx}
                 onUpdate={updateItem(idx)}

@@ -4,9 +4,8 @@ import { useDispatch } from 'react-redux';
 import { IconButton, MenuItem, ListItemText, ListItemIcon, Typography } from '@mui/material';
 import { default as MUIMenu } from '@mui/material/Menu';
 
-import AddIcon from '@mui/icons-material/Add';
-import MenuIcon from '@mui/icons-material/Menu';
 import { actions } from '../../dialogs';
+import { Add, Menu as MenuIcon, Print } from '@mui/icons-material';
 
 export const Menu = () => {
 
@@ -25,6 +24,16 @@ export const Menu = () => {
   const newPlan = useCallback(
     () => {
       dispatch(actions.show('newPlan'));
+      handleClose();
+    },
+    []
+  );
+
+  const sendPrintMessage = useCallback(
+    () => {
+      window.postMessage({
+        type: 'RUNPLAN_PRINT'
+      }, '*');
       handleClose();
     },
     []
@@ -58,7 +67,7 @@ export const Menu = () => {
       >
         <MenuItem onClick={newPlan}>
           <ListItemIcon>
-            <AddIcon fontSize="small" />
+            <Add fontSize="small" />
           </ListItemIcon>
           <ListItemText>New plan</ListItemText>
           <Typography
@@ -66,6 +75,18 @@ export const Menu = () => {
             variant="body2"
           >
             ⌘N
+          </Typography>
+        </MenuItem>
+        <MenuItem onClick={sendPrintMessage}>
+          <ListItemIcon>
+            <Print fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Print plan</ListItemText>
+          <Typography
+            color="text.secondary"
+            variant="body2"
+          >
+            ⌘P
           </Typography>
         </MenuItem>
       </MUIMenu>

@@ -8,13 +8,14 @@ import type { KeyboardEvent } from 'react';
 
 interface Props {
   edit?: boolean,
+  locked?: boolean,
   onChange: (text: string) => void,
   sx?: SxProps,
   value: string,
   variant?: OverridableStringUnion<Variant | 'inherit', TypographyPropsVariantOverrides>
 }
 
-export const EditableText = ({ edit, onChange, sx, value, variant }: Props) => {
+export const EditableText = ({ edit, locked, onChange, sx, value, variant }: Props) => {
   const [isEditing, setEditing] = useState(false);
 
   const [localValue, setLocalValue] = useState(value);
@@ -28,19 +29,21 @@ export const EditableText = ({ edit, onChange, sx, value, variant }: Props) => {
 
   const beginEditing = useCallback(
     () => {
-      setLocalValue(value);
-      setEditing(true);
+      if (!locked) {
+        setLocalValue(value);
+        setEditing(true);
+      }
     },
-    [value]
+    [locked, value]
   );
 
   useEffect(
     () => {
-      if (edit) {
+      if (edit && !locked) {
         beginEditing();
       }
     },
-    [edit]
+    [edit, locked]
   );
 
   const handleKeypress = (e: KeyboardEvent) => {
@@ -60,7 +63,7 @@ export const EditableText = ({ edit, onChange, sx, value, variant }: Props) => {
         onClick={() => beginEditing()}
         sx={{
           ...sx,
-          cursor: 'pointer',
+          cursor: locked ? 'normal' : 'pointer',
           fontWeight: 'inherit',
           minHeight: '1em',
           width: '100%'

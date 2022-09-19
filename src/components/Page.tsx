@@ -1,4 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components';
+import { PrintablePlan } from '../modules/plan';
 import { Controls } from "./Controls";
 import { Menubar } from "./Menubar";
 import { Preview } from './Preview';
@@ -40,6 +41,7 @@ export const Page = (): JSX.Element => {
         <Controls />
         <Preview />
       </PageInner>
+      <PrintablePlan />
     </>
   );
 };

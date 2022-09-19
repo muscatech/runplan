@@ -16,7 +16,12 @@ export const Preview = (): JSX.Element => {
 
   return (
     <Inner>
-      { currentPlan ? <RenderedPlan plan={currentPlan} /> : null }
+      { currentPlan ?
+        <RenderedPlan
+          editable
+          plan={currentPlan}
+        />
+      : null }
     </Inner>
   );
 };
