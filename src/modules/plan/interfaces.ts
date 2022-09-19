@@ -5,6 +5,7 @@ export interface Plan {
 }
 
 export interface Item {
+  id: string,
   type: string,
   name: string,
   isNew?: boolean,

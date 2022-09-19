@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { arrayMoveMutable } from 'array-move';
+import { arrayMoveImmutable } from 'array-move';
+import { v4 as uuidV4 } from 'uuid';
 
 import type { Item, Plan } from './interfaces';
 import { createPlan } from './functions';
@@ -59,6 +60,7 @@ export const plansSlice = createSlice({
         items: [
           ...currentPlan.items,
           {
+            id: uuidV4(),
             type: action.payload.type.id,
             name: `New ${action.payload.type.name}`,
             isNew: true
@@ -84,7 +86,11 @@ export const plansSlice = createSlice({
     movePlanItem: (state: PlansState, action: PayloadAction<MovePlanItemOptions>) => {
       const currentPlan = state.plans[action.payload.planID];
 
-      arrayMoveMutable(currentPlan.items, action.payload.sourceIndex, action.payload.destinationIndex);
+      currentPlan.items = arrayMoveImmutable(
+        currentPlan.items,
+        action.payload.sourceIndex,
+        action.payload.destinationIndex
+      );
     }
   }
 });

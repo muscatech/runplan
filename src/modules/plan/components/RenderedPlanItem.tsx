@@ -37,16 +37,17 @@ export const RenderedPlanItem = ({ editable, index, item, onMove, onUpdate, type
     type: 'EXISTING_ITEM',
     canDrag: () => !!editable,
     collect: (monitor) => ({
-      isDragging: !!monitor.isDragging()
+      isDragging: monitor.isDragging() && monitor.getItem()?.id === item.id
     }),
     item: () => ({
+      id: item.id,
       index
     })
   }));
 
   const ref = useRef<HTMLTableRowElement>(null);
 
-  const [, drop] = useDrop<
+  const [{ handlerId }, drop] = useDrop<
     DragItem,
     void,
     { handlerId: Identifier | null }
@@ -119,6 +120,7 @@ export const RenderedPlanItem = ({ editable, index, item, onMove, onUpdate, type
 
   return (
     <tr
+      data-handler-id={handlerId}
       ref={ref}
       style={{
         opacity: isDragging ? 0.1 : 1
