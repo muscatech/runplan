@@ -14,14 +14,14 @@ const Inner = styled(AppBar)`
 export const Menubar = (): JSX.Element => (
   <Inner position='static'>
     <Toolbar>
-      <Menu />
       <Typography
         component="div"
-        sx={{ flexGrow: 1 }}
+        sx={{ mr: 4 }}
         variant="h6"
       >
         RunPlan
       </Typography>
+      <Menu />
     </Toolbar>
   </Inner>
 );
