@@ -48,6 +48,12 @@ export const plansSlice = createSlice({
       state.currentPlan = newPlan.id;
     },
 
+    choosePlan: (state: PlansState, action: PayloadAction<string>) => {
+      if (state.plans[action.payload]) {
+        state.currentPlan = action.payload;
+      }
+    },
+
     updatePlan: (state: PlansState, action: PayloadAction<Plan>) => {
       state.plans[action.payload.id] = {
         ...state.plans[action.payload.id],
@@ -111,5 +117,5 @@ export const plansSlice = createSlice({
   }
 });
 
-export const { addItem, createNew, movePlanItem, updatePlan, updatePlanItem } = plansSlice.actions;
+export const { addItem, choosePlan, createNew, movePlanItem, updatePlan, updatePlanItem } = plansSlice.actions;
 export default plansSlice.reducer;

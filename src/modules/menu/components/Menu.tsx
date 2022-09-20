@@ -2,14 +2,23 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Button } from '@mui/material';
+import type { ButtonProps } from '@mui/material';
 
 import { actions } from '../../dialogs';
 
+const MenuButton = (props: ButtonProps) => (
+  <Button
+    sx={{ ...(props.sx || {}), my: 2, color: 'white', display: 'block' }}
+    {...props}
+  />
+);
+
 export const Menu = () => {
   const dispatch = useDispatch();
-  const newPlan = useCallback(
+
+  const showModal = (modalName: string) => useCallback(
     () => {
-      dispatch(actions.show('newPlan'));
+      dispatch(actions.show(modalName));
     },
     []
   );
@@ -25,18 +34,21 @@ export const Menu = () => {
 
   return (
     <>
-      <Button
-        onClick={newPlan}
-        sx={{ my: 2, color: 'white', display: 'block' }}
+      <MenuButton
+        onClick={showModal('newPlan')}
       >
         New plan
-      </Button>
-      <Button
+      </MenuButton>
+      <MenuButton
+        onClick={showModal('choosePlan')}
+      >
+        Plans&hellip;
+      </MenuButton>
+      <MenuButton
         onClick={sendPrintMessage}
-        sx={{ my: 2, color: 'white', display: 'block' }}
       >
         Print
-      </Button>
+      </MenuButton>
     </>
   );
 };

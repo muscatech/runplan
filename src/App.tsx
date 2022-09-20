@@ -10,6 +10,7 @@ import { theme } from './theme';
 import { store, persistor } from './store';
 import { NewPlanDialog } from './modules/plan';
 import { NewItemTypeDialog } from './modules/itemTypes/components';
+import { ChoosePlanDialog } from './modules/plan/components/ChoosePlanDialog';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           </DndProvider>
           <NewItemTypeDialog />
           <NewPlanDialog />
+          <ChoosePlanDialog />
         </ThemeProvider>
       </PersistGate>
     </Provider>
