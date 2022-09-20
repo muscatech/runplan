@@ -8,6 +8,9 @@ export function createPlan(name: string): Plan {
   return {
     id,
     name,
-    items: []
+    items: [],
+    meta: {
+      lastModified: Date.now()
+    }
   };
 }

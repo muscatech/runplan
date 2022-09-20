@@ -47,12 +47,18 @@ export const plansSlice = createSlice({
       state.plans[newPlan.id] = newPlan;
       state.currentPlan = newPlan.id;
     },
+
     updatePlan: (state: PlansState, action: PayloadAction<Plan>) => {
       state.plans[action.payload.id] = {
         ...state.plans[action.payload.id],
-        ...action.payload
+        ...action.payload,
+        meta: {
+          ...state.plans[action.payload.id].meta,
+          lastModified: Date.now()
+        }
       };
     },
+
     addItem: (state: PlansState, action: PayloadAction<AddItemOptions>) => {
       const currentPlan = state.plans[action.payload.planID];
       state.plans[action.payload.planID] = {
@@ -65,9 +71,14 @@ export const plansSlice = createSlice({
             name: `New ${action.payload.type.name}`,
             isNew: true
           }
-        ]
+        ],
+        meta: {
+          ...currentPlan.meta,
+          lastModified: Date.now()
+        }
       };
     },
+
     updatePlanItem: (state: PlansState, action: PayloadAction<UpdatePlanItemOptions>) => {
       const currentPlan = state.plans[action.payload.planID];
       const currentItem = currentPlan.items[action.payload.itemIndex];
@@ -82,7 +93,10 @@ export const plansSlice = createSlice({
       else {
         currentPlan.items.splice(action.payload.itemIndex, 1, newItem);
       }
+
+      currentPlan.meta.lastModified = Date.now();
     },
+
     movePlanItem: (state: PlansState, action: PayloadAction<MovePlanItemOptions>) => {
       const currentPlan = state.plans[action.payload.planID];
 
@@ -91,6 +105,8 @@ export const plansSlice = createSlice({
         action.payload.sourceIndex,
         action.payload.destinationIndex
       );
+
+      currentPlan.meta.lastModified = Date.now();
     }
   }
 });

@@ -1,7 +1,12 @@
+interface PlanMeta {
+  lastModified: number
+}
+
 export interface Plan {
   id: string,
   name: string,
-  items: Item[]
+  items: Item[],
+  meta: PlanMeta
 }
 
 export interface Item {
