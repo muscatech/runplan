@@ -7,11 +7,28 @@ import { selectors as itemTypeSelectors } from '../../itemTypes';
 import { actions as dialogActions } from '../../dialogs';
 import { addItem } from "../slice";
 
-interface Props {
+interface AddItemProps {
+  itemType: ItemType,
+  onClick?: () => void
+}
+
+const AddItem = ({ itemType, onClick }: AddItemProps): JSX.Element => {
+  return (
+    <Button
+      fullWidth
+      onClick={onClick}
+      variant='contained'
+    >
+      { itemType.name }
+    </Button>
+  );
+};
+
+interface AddItemButtonsProps {
   planID: string
 }
 
-export const AddItemButtons = ({ planID }: Props) => {
+export const AddItemButtons = ({ planID }: AddItemButtonsProps) => {
 
   const dispatch = useDispatch();
 
@@ -38,14 +55,11 @@ export const AddItemButtons = ({ planID }: Props) => {
         {
           Object.values(allTypes).map(
             (t: ItemType) => (
-              <Button
-                fullWidth
+              <AddItem
+                itemType={t}
                 key={t.id}
                 onClick={() => addItemToPlan(t)}
-                variant='contained'
-              >
-                { t.name }
-              </Button>
+              />
             )
           )
         }
