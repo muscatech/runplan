@@ -39,6 +39,11 @@ interface MovePlanItemOptions {
   destinationIndex: number
 }
 
+interface DeletePlanItemOptions {
+  planID: string,
+  index: number
+}
+
 export const plansSlice = createSlice({
   name: 'plans',
   initialState,
@@ -111,9 +116,14 @@ export const plansSlice = createSlice({
       );
 
       currentPlan.meta.lastModified = Date.now();
+    },
+
+    deletePlanItem: (state: PlansState, action: PayloadAction<DeletePlanItemOptions>) => {
+      const currentPlan = state.plans[action.payload.planID];
+      currentPlan.items.splice(action.payload.index, 1);
     }
   }
 });
 
-export const { addItem, choosePlan, createNew, movePlanItem, updatePlan, updatePlanItem } = plansSlice.actions;
+export const { addItem, choosePlan, createNew, deletePlanItem, movePlanItem, updatePlan, updatePlanItem } = plansSlice.actions;
 export default plansSlice.reducer;
