@@ -1,11 +1,12 @@
 import { useDispatch } from "react-redux";
-import { Box, Button, ButtonGroup } from "@mui/material";
+import { Box, Button, ButtonGroup, Typography } from "@mui/material";
 
 import type { ItemType } from "../../itemTypes/interfaces";
 
 import { selectors as itemTypeSelectors } from '../../itemTypes';
 import { actions as dialogActions } from '../../dialogs';
 import { addItem } from "../slice";
+import { useDrag } from "react-dnd";
 
 interface AddItemProps {
   itemType: ItemType,
@@ -13,10 +14,22 @@ interface AddItemProps {
 }
 
 const AddItem = ({ itemType, onClick }: AddItemProps): JSX.Element => {
+
+  const [, drag] = useDrag(() => ({
+    type: 'NEW_ITEM_OF_TYPE',
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging()
+    }),
+    item: () => ({
+      itemType
+    })
+  }));
+
   return (
     <Button
       fullWidth
       onClick={onClick}
+      ref={drag}
       variant='contained'
     >
       { itemType.name }
@@ -48,6 +61,9 @@ export const AddItemButtons = ({ planID }: AddItemButtonsProps) => {
         padding: 2
       }}
     >
+      <Typography sx={{ mb: 2 }}>
+        Click or drag into the plan to add items
+      </Typography>
       <ButtonGroup
         fullWidth
         orientation='vertical'

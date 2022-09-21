@@ -23,7 +23,8 @@ const initialState: PlansState = {
 
 interface AddItemOptions {
   planID: string,
-  type: ItemType
+  type: ItemType,
+  index?: number
 }
 
 interface UpdatePlanItemOptions {
@@ -67,22 +68,19 @@ export const plansSlice = createSlice({
 
     addItem: (state: PlansState, action: PayloadAction<AddItemOptions>) => {
       const currentPlan = state.plans[action.payload.planID];
-      state.plans[action.payload.planID] = {
-        ...currentPlan,
-        items: [
-          ...currentPlan.items,
-          {
-            id: uuidV4(),
-            type: action.payload.type.id,
-            name: `New ${action.payload.type.name}`,
-            isNew: true
-          }
-        ],
-        meta: {
-          ...currentPlan.meta,
-          lastModified: Date.now()
+
+      currentPlan.items.splice(
+        action.payload.index || currentPlan.items.length,
+        0,
+        {
+          id: uuidV4(),
+          type: action.payload.type.id,
+          name: `New ${action.payload.type.name}`,
+          isNew: true
         }
-      };
+      );
+
+      currentPlan.meta.lastModified = Date.now();
     },
 
     updatePlanItem: (state: PlansState, action: PayloadAction<UpdatePlanItemOptions>) => {

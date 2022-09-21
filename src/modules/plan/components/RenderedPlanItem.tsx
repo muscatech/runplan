@@ -13,6 +13,7 @@ interface RenderedPlanItemProps {
   editable?: boolean,
   index: number,
   item: Item,
+  onInsert: (index: number, itemType: ItemType) => void,
   onMove: (oldIndex: number, newIndex: number) => void,
   onUpdate: (index: number, item: Item) => void,
   type: ItemType
@@ -21,10 +22,11 @@ interface RenderedPlanItemProps {
 interface DragItem {
   index: number
   id: string
-  type: string
+  type: string,
+  itemType?: ItemType
 }
 
-export const RenderedPlanItem = ({ editable, index, item, onMove, onUpdate, type }: RenderedPlanItemProps) => {
+export const RenderedPlanItem = ({ editable, index, item, onInsert, onMove, onUpdate, type }: RenderedPlanItemProps) => {
 
   const typeStyle = { backgroundColor: type.color, fontWeight: 'bold' };
   const typographyStyle = {
@@ -52,7 +54,7 @@ export const RenderedPlanItem = ({ editable, index, item, onMove, onUpdate, type
     void,
     { handlerId: Identifier | null }
   >({
-    accept: ['EXISTING_ITEM'],
+    accept: ['EXISTING_ITEM', 'NEW_ITEM_OF_TYPE'],
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -105,8 +107,15 @@ export const RenderedPlanItem = ({ editable, index, item, onMove, onUpdate, type
         item.index = hoverIndex;
       }
 
-
     },
+    drop(item: DragItem, monitor) {
+      if (monitor.getItemType() === 'NEW_ITEM_OF_TYPE') {
+        const droppedItem = monitor.getItem();
+        if (droppedItem.itemType) {
+          onInsert(index, droppedItem.itemType);
+        }
+      }
+    }
   });
 
   drag(drop(ref));

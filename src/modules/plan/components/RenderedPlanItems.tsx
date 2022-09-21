@@ -1,11 +1,13 @@
 import styled from "styled-components";
+import type { ItemType } from "../../itemTypes/interfaces";
 import { allItemTypes } from "../../itemTypes/selectors";
-import { Item } from "../interfaces";
+import type { Item } from "../interfaces";
 import { RenderedPlanItem } from "./RenderedPlanItem";
 
 interface Props {
   editable?: boolean,
   items: Item[],
+  onAddItem?: (idx: number, itemType: ItemType) => void,
   onMoveItem?: (oldIdx: number, newIdx: number) => void,
   onUpdate?: (idx: number, item: Item) => void
 }
@@ -27,9 +29,15 @@ const ItemsTable = styled.table`
 
 `;
 
-export const RenderedPlanItems = ({ editable, items, onMoveItem, onUpdate }: Props) => {
+export const RenderedPlanItems = ({ editable, items, onAddItem, onMoveItem, onUpdate }: Props) => {
 
   const itemTypes = allItemTypes();
+
+  const addItem = (idx: number, itemType: ItemType) => {
+    if (onAddItem) {
+      onAddItem(idx, itemType);
+    }
+  };
 
   const updateItem = (idx: number, newItem: Item) => {
     if (onUpdate) {
@@ -60,6 +68,7 @@ export const RenderedPlanItems = ({ editable, items, onMoveItem, onUpdate }: Pro
                 index={idx}
                 item={item}
                 key={item.id || idx}
+                onInsert={addItem}
                 onMove={moveItem}
                 onUpdate={updateItem}
                 type={itemTypes[item.type]}
