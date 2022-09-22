@@ -136,12 +136,19 @@ export const RenderedPlanItem = ({ editable, index, item, onInsert, onMove, onUp
       }}
     >
       <td></td>
-      <td style={typeStyle}>
-        <Typography sx={typographyStyle}>
-          { type.name }
-        </Typography>
-      </td>
-      <td style={typeStyle}>
+      {
+        !type.isSectionHeading && (
+          <td style={typeStyle}>
+            <Typography sx={typographyStyle}>
+              { type.name }
+            </Typography>
+          </td>
+        )
+      }
+      <td
+        colSpan={type.isSectionHeading ? 2 : undefined}
+        style={typeStyle}
+      >
         <EditableText
           edit={item.isNew && editable}
           locked={!editable || isDragging}

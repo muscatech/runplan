@@ -3,12 +3,15 @@ import { useDispatch } from 'react-redux';
 import {
   Button,
   Dialog, DialogActions, DialogContent, DialogTitle,
+  FormControlLabel,
+  Switch,
   TextField
 } from '@mui/material';
 
 import { actions as dialogActions, selectors as dialogSelectors } from '../../dialogs';
 import { addNew } from '../slice';
 import { ColorPicker } from '../../../components/ColorPicker';
+import type { NewItemType } from '../interfaces';
 
 
 
@@ -18,7 +21,7 @@ export const NewItemTypeDialog = () => {
   const isOpen = currentDialog === 'newItemType';
   const dispatch = useDispatch();
 
-  const [it, setIt] = useState({ name: '', color: '#ffffff' });
+  const [it, setIt] = useState<NewItemType>({ name: '', color: '#ffffff', isSectionHeading: false });
 
   const close = () => {
     dispatch(dialogActions.hide());
@@ -51,6 +54,15 @@ export const NewItemTypeDialog = () => {
         <ColorPicker
           onChange={c => setIt(i => ({ ...i, color: c }))}
           value={it.color}
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              onChange={e => setIt(i => ({ ...i, isSectionHeading: e.target.checked }))}
+              value={it.isSectionHeading}
+            />
+          }
+          label="This is a section heading"
         />
       </DialogContent>
       <DialogActions>
