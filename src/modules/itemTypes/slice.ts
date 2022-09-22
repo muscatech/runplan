@@ -4,7 +4,14 @@ import { v4 as uuidV4 } from 'uuid';
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { ItemType, NewItemType } from "./interfaces";
 
-const initialState: Record<string, ItemType> = {};
+const initialState: Record<string, ItemType> = {
+  '_section': {
+    id: '_section',
+    name: 'Section',
+    color: '#FFFFFF',
+    isSectionHeading: true
+  }
+};
 
 const slice = createSlice({
   name: 'itemTypes',
