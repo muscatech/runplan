@@ -83,6 +83,12 @@ export const EditableText = ({ edit, locked, onChange, sx, value, variant }: Pro
     return (
       <TextField
         autoFocus
+        inputProps={{
+          style: {
+            fontWeight: 'inherit',
+            padding: '2px 8px'
+          }
+        }}
         margin='none'
         onBlur={handleBlur}
         onChange={(e) => setLocalValue(e.target.value)}
