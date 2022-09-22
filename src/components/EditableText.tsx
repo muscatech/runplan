@@ -83,7 +83,6 @@ export const EditableText = ({ edit, locked, onChange, sx, value, variant }: Pro
     return (
       <TextField
         autoFocus
-        fullWidth
         margin='none'
         onBlur={handleBlur}
         onChange={(e) => setLocalValue(e.target.value)}
