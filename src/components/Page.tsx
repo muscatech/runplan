@@ -26,7 +26,7 @@ const GlobalStyle = createGlobalStyle`
     height: 100vh;
 
     font-family: ${ props => props.theme.typography.fontFamily };
-    font-size: ${ props => props.theme.typography.fontSize };
+    font-size: ${ props => props.theme.typography.fontSize }px;
 
     background-color: rgb(245, 245, 245);
   }
