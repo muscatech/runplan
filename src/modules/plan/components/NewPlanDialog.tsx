@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { KeyboardEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Button,
@@ -18,13 +19,19 @@ export const NewPlanDialog = () => {
   const [planName, setPlanName] = useState('');
 
   const close = () => {
-    setPlanName('');
     dispatch(dialogActions.hide());
+    setPlanName('');
   };
 
   const submit = () => {
     dispatch(createNew(planName));
     close();
+  };
+
+  const handleKeypress = (e: KeyboardEvent) => {
+    if (e.key === 'Enter' && planName !== '') {
+      submit();
+    }
   };
 
   return (
@@ -40,6 +47,7 @@ export const NewPlanDialog = () => {
           label='Plan name'
           margin="dense"
           onChange={e => setPlanName(e.target.value)}
+          onKeyUp={handleKeypress}
           required
           value={planName}
         />
