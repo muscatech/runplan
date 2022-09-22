@@ -21,6 +21,10 @@ const AddItemInner = styled.div`
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
   cursor: pointer;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const AddItem = ({ itemType, onClick }: AddItemProps): JSX.Element => {
@@ -42,6 +46,12 @@ const AddItem = ({ itemType, onClick }: AddItemProps): JSX.Element => {
       style={{ backgroundColor: itemType.color }}
     >
       { itemType.name }
+      <Typography
+        sx={{ color: 'text.secondary', lineHeight: 1 }}
+        variant='overline'
+      >
+        { itemType.isSectionHeading ? 'Heading' : 'Item' }
+      </Typography>
     </AddItemInner>
   );
 };
