@@ -14,7 +14,7 @@ interface RenderedPlanItemProps {
   index: number,
   item: Item,
   onInsert: (index: number, itemType: ItemType) => void,
-  onMove: (oldIndex: number, newIndex: number) => void,
+  onMove: (itemID: string, newIndex: number) => void,
   onUpdate: (index: number, item: Item) => void,
   type: ItemType
 }
@@ -102,7 +102,7 @@ export const RenderedPlanItem = ({ editable, index, item, onInsert, onMove, onUp
         }
 
         // Time to actually perform the action
-        onMove(dragIndex, hoverIndex);
+        onMove(item.id, hoverIndex);
 
         item.index = hoverIndex;
       }

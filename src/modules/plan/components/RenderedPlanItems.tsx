@@ -8,7 +8,7 @@ interface Props {
   editable?: boolean,
   items: Item[],
   onAddItem?: (idx: number, itemType: ItemType) => void,
-  onMoveItem?: (oldIdx: number, newIdx: number) => void,
+  onMoveItem?: (itemID: string, newIdx: number) => void,
   onUpdate?: (idx: number, item: Item) => void
 }
 
@@ -45,9 +45,9 @@ export const RenderedPlanItems = ({ editable, items, onAddItem, onMoveItem, onUp
     }
   };
 
-  const moveItem = (oldIdx: number, newIdx: number) => {
+  const moveItem = (itemID: string, newIdx: number) => {
     if (onMoveItem) {
-      onMoveItem(oldIdx, newIdx);
+      onMoveItem(itemID, newIdx);
     }
   };
 

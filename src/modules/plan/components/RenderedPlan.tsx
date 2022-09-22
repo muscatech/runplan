@@ -39,8 +39,8 @@ export const RenderedPlan = ({ editable, plan }: Props): JSX.Element => {
         onAddItem={(idx: number, itemType: ItemType) => {
           dispatch(addItem({ planID: plan.id, type: itemType, index: idx }));
         }}
-        onMoveItem={(fromIdx: number, toIdx: number) => {
-          dispatch(movePlanItem({ planID: plan.id, sourceIndex: fromIdx, destinationIndex: toIdx }));
+        onMoveItem={(itemID: string, toIdx: number) => {
+          dispatch(movePlanItem({ planID: plan.id, sourceID: itemID, destinationIndex: toIdx }));
         }}
         onUpdate={(idx: number, item: Item) => dispatch(updatePlanItem({ planID: plan.id, itemIndex: idx, item }))}
       />

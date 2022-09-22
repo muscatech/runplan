@@ -35,7 +35,7 @@ interface UpdatePlanItemOptions {
 
 interface MovePlanItemOptions {
   planID: string,
-  sourceIndex: number,
+  sourceID: string,
   destinationIndex: number
 }
 
@@ -109,9 +109,11 @@ export const plansSlice = createSlice({
     movePlanItem: (state: PlansState, action: PayloadAction<MovePlanItemOptions>) => {
       const currentPlan = state.plans[action.payload.planID];
 
+      const sourceIndex = currentPlan.items.findIndex(i => i.id === action.payload.sourceID);
+
       currentPlan.items = arrayMoveImmutable(
         currentPlan.items,
-        action.payload.sourceIndex,
+        sourceIndex,
         action.payload.destinationIndex
       );
 
