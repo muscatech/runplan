@@ -7,11 +7,21 @@ import { selectors as itemTypeSelectors } from '../../itemTypes';
 import { actions as dialogActions } from '../../dialogs';
 import { addItem } from "../slice";
 import { useDrag } from "react-dnd";
+import styled from "styled-components";
 
 interface AddItemProps {
   itemType: ItemType,
   onClick?: () => void
 }
+
+const AddItemInner = styled.div`
+  padding: ${ props => props.theme.spacing(1) };
+  border: 1px solid black;
+  margin: ${ props => props.theme.spacing(0.25) };
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+`;
 
 const AddItem = ({ itemType, onClick }: AddItemProps): JSX.Element => {
 
@@ -26,14 +36,13 @@ const AddItem = ({ itemType, onClick }: AddItemProps): JSX.Element => {
   }));
 
   return (
-    <Button
-      fullWidth
+    <AddItemInner
       onClick={onClick}
       ref={drag}
-      variant='contained'
+      style={{ backgroundColor: itemType.color }}
     >
       { itemType.name }
-    </Button>
+    </AddItemInner>
   );
 };
 
@@ -81,6 +90,9 @@ export const AddItemButtons = ({ planID }: AddItemButtonsProps) => {
         }
         <Button
           onClick={showNewTypeDialog}
+          sx={{
+            my: 0.5
+          }}
         >
           Add item type
         </Button>
