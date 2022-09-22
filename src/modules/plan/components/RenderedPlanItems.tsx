@@ -56,7 +56,7 @@ export const RenderedPlanItems = ({ editable, items, onAddItem, onMoveItem, onUp
       <colgroup>
         <col width='10%' />
         <col width='15%' />
-        <col />
+        <col width='55%' />
         <col width='20%' />
       </colgroup>
       <tbody>
@@ -74,6 +74,19 @@ export const RenderedPlanItems = ({ editable, items, onAddItem, onMoveItem, onUp
                 type={itemTypes[item.type]}
               />
             )
+          )
+        }
+        {
+          editable && (
+            <RenderedPlanItem
+              editable={false}
+              index={items.length}
+              item={{ id: '_dummy', type: '_dummy', name: 'Drag and drop items here' }}
+              onInsert={addItem}
+              onMove={moveItem}
+              onUpdate={updateItem}
+              type={{ id: '_dummy', name: '_dummy', color: '#E0E0E0', isSectionHeading: true }}
+            />
           )
         }
       </tbody>
