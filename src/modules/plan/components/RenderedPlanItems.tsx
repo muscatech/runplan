@@ -1,6 +1,8 @@
+import { useRef } from "react";
 import styled from "styled-components";
 import type { ItemType } from "../../itemTypes/interfaces";
 import { allItemTypes } from "../../itemTypes/selectors";
+import { useDroppableRow } from "../functions";
 import type { Item } from "../interfaces";
 import { RenderedPlanItem } from "./RenderedPlanItem";
 
@@ -14,7 +16,6 @@ interface Props {
 
 const ItemsTable = styled.table`
 
-  border: 1px solid black;
   border-collapse: collapse;
   width: 100%;
 
@@ -28,6 +29,44 @@ const ItemsTable = styled.table`
   }
 
 `;
+
+interface DummyRowProps {
+  index: number,
+  onAddItem: (idx: number, itemType: ItemType) => void,
+  onMoveItem: (itemID: string, newIdx: number) => void
+}
+
+const DummyCell = styled.td.attrs({ colSpan: 4 })`
+  background-color: #F5F5F5;
+  border: 1px dotted #808080 !important;
+  color: #808080;
+  font-style: italic;
+  padding: ${ props => props.theme.spacing(1) };
+  text-align: center;
+`;
+
+const DummyRow = ({ index, onAddItem, onMoveItem }: DummyRowProps) => {
+  const ref = useRef<HTMLTableRowElement>(null);
+  const [{ handlerId }, drop] = useDroppableRow(
+    ref,
+    index,
+    (idx, itemType) => onAddItem(idx, itemType),
+    (itemID, newIdx) => onMoveItem(itemID, newIdx)
+  );
+
+  drop(ref);
+
+  return (
+    <tr
+      data-handler-id={handlerId}
+      ref={ref}
+    >
+      <DummyCell>
+        Drag and drop items here
+      </DummyCell>
+    </tr>
+  );
+};
 
 export const RenderedPlanItems = ({ editable, items, onAddItem, onMoveItem, onUpdate }: Props) => {
 
@@ -77,15 +116,11 @@ export const RenderedPlanItems = ({ editable, items, onAddItem, onMoveItem, onUp
           )
         }
         {
-          editable && (
-            <RenderedPlanItem
-              editable={false}
+          editable && onAddItem && onMoveItem && (
+            <DummyRow
               index={items.length}
-              item={{ id: '_dummy', type: '_dummy', name: 'Drag and drop items here' }}
-              onInsert={addItem}
-              onMove={moveItem}
-              onUpdate={updateItem}
-              type={{ id: '_dummy', name: '_dummy', color: '#E0E0E0', isSectionHeading: true }}
+              onAddItem={onAddItem}
+              onMoveItem={onMoveItem}
             />
           )
         }

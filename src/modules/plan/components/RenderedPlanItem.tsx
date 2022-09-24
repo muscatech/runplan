@@ -1,11 +1,12 @@
 import { useCallback, useRef } from "react";
 import { Typography } from "@mui/material";
-import { useDrag, useDrop } from "react-dnd";
-import type { Identifier, XYCoord } from 'dnd-core';
+import { useDrag } from "react-dnd";
+
 
 import { EditableText } from "../../../components/EditableText";
 import { ItemType } from "../../itemTypes/interfaces";
 import type { Item } from "../interfaces";
+import { useDroppableRow } from "../functions";
 
 const ITEM_CELL_PADDING = 0.5;
 
@@ -17,13 +18,6 @@ interface RenderedPlanItemProps {
   onMove: (itemID: string, newIndex: number) => void,
   onUpdate: (index: number, item: Item) => void,
   type: ItemType
-}
-
-interface DragItem {
-  index: number
-  id: string
-  type: string,
-  itemType?: ItemType
 }
 
 export const RenderedPlanItem = ({ editable, index, item, onInsert, onMove, onUpdate, type }: RenderedPlanItemProps) => {
@@ -49,74 +43,7 @@ export const RenderedPlanItem = ({ editable, index, item, onInsert, onMove, onUp
 
   const ref = useRef<HTMLTableRowElement>(null);
 
-  const [{ handlerId }, drop] = useDrop<
-    DragItem,
-    void,
-    { handlerId: Identifier | null }
-  >({
-    accept: ['EXISTING_ITEM', 'NEW_ITEM_OF_TYPE'],
-    collect(monitor) {
-      return {
-        handlerId: monitor.getHandlerId(),
-      };
-    },
-    hover(item: DragItem, monitor) {
-      if (!ref.current) {
-        return;
-      }
-
-      if (monitor.getItemType() === 'EXISTING_ITEM') {
-        const dragIndex = item.index;
-        const hoverIndex = index;
-
-        // Don't replace items with themselves
-        if (dragIndex === hoverIndex) {
-          return;
-        }
-
-        // Determine rectangle on screen
-        const hoverBoundingRect = ref.current?.getBoundingClientRect();
-
-        // Get vertical middle
-        const hoverMiddleY =
-          (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-
-        // Determine mouse position
-        const clientOffset = monitor.getClientOffset();
-
-        // Get pixels to the top
-        const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
-
-        // Only perform the move when the mouse has crossed half of the items height
-        // When dragging downwards, only move when the cursor is below 50%
-        // When dragging upwards, only move when the cursor is above 50%
-
-        // Dragging downwards
-        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-          return;
-        }
-
-        // Dragging upwards
-        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-          return;
-        }
-
-        // Time to actually perform the action
-        onMove(item.id, hoverIndex);
-
-        item.index = hoverIndex;
-      }
-
-    },
-    drop(item: DragItem, monitor) {
-      if (monitor.getItemType() === 'NEW_ITEM_OF_TYPE') {
-        const droppedItem = monitor.getItem();
-        if (droppedItem.itemType) {
-          onInsert(index, droppedItem.itemType);
-        }
-      }
-    }
-  });
+  const [{ handlerId }, drop] = useDroppableRow(ref, index, onInsert, onMove);
 
   drag(drop(ref));
 

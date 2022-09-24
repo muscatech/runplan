@@ -1,3 +1,5 @@
+import type { ItemType } from "../itemTypes/interfaces";
+
 interface PlanMeta {
   lastModified: number
 }
@@ -15,4 +17,11 @@ export interface Item {
   name: string,
   isNew?: boolean,
   remark?: string
+}
+
+export interface DragItem {
+  index: number
+  id: string
+  type: string,
+  itemType?: ItemType
 }
