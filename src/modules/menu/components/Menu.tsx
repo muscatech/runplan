@@ -46,6 +46,12 @@ export const Menu = () => {
       </MenuButton>
       <MenuButton
         onClick={sendPrintMessage}
+        sx={{
+          color: 'white',
+          '@media print': {
+            border: '2px solid red'
+          }
+        }}
       >
         Print
       </MenuButton>

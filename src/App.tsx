@@ -11,6 +11,7 @@ import { store, persistor } from './store';
 import { NewPlanDialog } from './modules/plan';
 import { NewItemTypeDialog } from './modules/itemTypes/components';
 import { ChoosePlanDialog } from './modules/plan/components/ChoosePlanDialog';
+import { WrongPrintMessage } from './components/WrongPrintMessage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       >
         <ThemeProvider theme={theme}>
           <DndProvider backend={HTML5Backend}>
+            <WrongPrintMessage />
             <Page />
           </DndProvider>
           <NewItemTypeDialog />
