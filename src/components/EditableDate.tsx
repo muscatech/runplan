@@ -42,14 +42,18 @@ interface EditableDateProps extends Omit<EditableProps<number | null>, 'value' |
   value: Dayjs | undefined
 }
 
-export const EditableDate = ({ dateFormat='YYYY-MM-DD', value, ...props }: EditableDateProps) => {
+export const EditableDate = ({ dateFormat='YYYY-MM-DD', locked, value, ...props }: EditableDateProps): JSX.Element | null => {
   const NumberEditable = Editable<number | null>;
-  return (
-    <NumberEditable
-      formatValue={(v: number | null) => v ? dayjs(v * 1000).format(dateFormat) : '(No date)'}
-      renderEditable={renderEditable}
-      value={value?.unix() || null}
-      {...props}
-    />
-  );
+  if (!locked || value) {
+    return (
+      <NumberEditable
+        formatValue={(v: number | null) => v ? dayjs(v * 1000).format(dateFormat) : '(No date)'}
+        locked={locked}
+        renderEditable={renderEditable}
+        value={value?.unix() || null}
+        {...props}
+      />
+    );
+  }
+  return null;
 };
