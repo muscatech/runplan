@@ -1,5 +1,8 @@
 import { Paper } from "@mui/material";
 import { useDispatch } from "react-redux";
+import dayjs from 'dayjs';
+
+import { EditableDate } from "../../../components/EditableDate";
 import { EditableText } from "../../../components/EditableText";
 import type { ItemType } from "../../itemTypes/interfaces";
 import type { Item, Plan } from "../interfaces";
@@ -28,10 +31,18 @@ export const RenderedPlan = ({ editable, plan }: Props): JSX.Element => {
     >
       <EditableText
         locked={!editable}
-        onChange={(newName) => newName !== '' && commitUpdate({ ...plan, name: newName })}
+        onChange={(newName) => newName !== '' && commitUpdate({ ...plan, name: String(newName) })}
         sx={{ textAlign: 'right', width: '100%' }}
         value={plan.name}
         variant="h4"
+      />
+      <EditableDate
+        dateFormat='D MMMM YYYY'
+        locked={!editable}
+        onChange={d => commitUpdate({ ...plan, date: (!d || typeof d === 'string') ? undefined : d })}
+        sx={{ textAlign: 'right', width: '100%' }}
+        value={plan.date ? dayjs(plan.date * 1000) : undefined}
+        variant='h5'
       />
       <RenderedPlanItems
         editable={editable}
