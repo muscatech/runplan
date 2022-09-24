@@ -2,11 +2,11 @@ import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-import { EditableText, EditableTextProps } from "./EditableText";
-import type { RenderEditableProps } from "./EditableText";
+import { Editable } from "./EditableText";
+import type { EditableProps, RenderEditableProps } from "./EditableText";
 import { TextField } from '@mui/material';
 
-const renderEditable = ({ onChange, onFocus, onKeyUp, sx, value }: RenderEditableProps): JSX.Element => (
+const renderEditable = ({ onChange, onFocus, onKeyUp, sx, value }: RenderEditableProps<number | null>): JSX.Element => (
   <DesktopDatePicker
     inputFormat="YYYY-MM-DD"
     label="Plan date (optional)"
@@ -32,20 +32,21 @@ const renderEditable = ({ onChange, onFocus, onKeyUp, sx, value }: RenderEditabl
         />
       )
     }
-    value={dayjs(value * 1000)}
+    value={value ? dayjs(value * 1000) : null}
   />
 
 );
 
-interface EditableDateProps extends Omit<EditableTextProps, 'value'> {
+interface EditableDateProps extends Omit<EditableProps<number | null>, 'value' | 'renderEditable'> {
   dateFormat?: string,
   value: Dayjs | undefined
 }
 
 export const EditableDate = ({ dateFormat='YYYY-MM-DD', value, ...props }: EditableDateProps) => {
+  const NumberEditable = Editable<number | null>;
   return (
-    <EditableText
-      formatValue={(v: number | undefined) => v ? dayjs(v * 1000).format(dateFormat) : '(No date)'}
+    <NumberEditable
+      formatValue={(v: number | null) => v ? dayjs(v * 1000).format(dateFormat) : '(No date)'}
       renderEditable={renderEditable}
       value={value?.unix() || null}
       {...props}

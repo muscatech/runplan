@@ -6,50 +6,30 @@ import type { OverridableStringUnion } from '@mui/types';
 import type { Variant } from "@mui/material/styles/createTypography";
 import type { SxProps } from '@mui/system';
 
-export interface EditableTextProps {
+export interface EditableProps<Type> {
   edit?: boolean,
   locked?: boolean,
-  formatValue?: (v: any) => string,
-  onChange: (value: string | number | null) => void,
-  renderEditable?: (props: RenderEditableProps) => JSX.Element,
+  formatValue?: (v: Type) => string,
+  onChange: (value: Type) => void,
+  renderEditable: (props: RenderEditableProps<Type>) => JSX.Element,
   sx?: SxProps,
-  value: string | number | null,
+  value: Type,
   variant?: OverridableStringUnion<Variant | 'inherit', TypographyPropsVariantOverrides>
 }
 
-export interface RenderEditableProps {
+export interface RenderEditableProps<Type> {
   onBlur: () => void,
-  onChange: (e: string | number | null, close?: boolean) => void,
+  onChange: (e: Type, close?: boolean) => void,
   onFocus: (e: FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>) => void,
   onKeyUp: (e: KeyboardEvent) => void,
   sx?: SxProps,
-  value: any
+  value: Type
 }
 
-const defaultRenderEditable = ({ onBlur, onChange, onFocus, onKeyUp, sx, value }: RenderEditableProps): JSX.Element => (
-  <TextField
-    autoFocus
-    inputProps={{
-      style: {
-        fontWeight: 'inherit',
-        padding: '2px 8px'
-      }
-    }}
-    margin='none'
-    onBlur={onBlur}
-    onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
-    onFocus={onFocus}
-    onKeyUp={onKeyUp}
-    size='small'
-    sx={sx}
-    value={value}
-  />
-);
-
-export const EditableText = ({ edit, formatValue=(v) => v, locked, onChange, renderEditable=defaultRenderEditable, sx, value, variant }: EditableTextProps) => {
+export const Editable = <Type,>({ edit, formatValue=(v) => String(v), locked, onChange, renderEditable, sx, value, variant }: EditableProps<Type>) => {
   const [isEditing, setEditing] = useState(false);
 
-  const [localValue, setLocalValue] = useState<string | number | null>(value);
+  const [localValue, setLocalValue] = useState<Type>(value);
 
   useEffect(
     () => {
@@ -95,7 +75,7 @@ export const EditableText = ({ edit, formatValue=(v) => v, locked, onChange, ren
     setEditing(false);
   };
 
-  const handleChange = (newValue: any, close=false) => {
+  const handleChange = (newValue: Type, close=false) => {
     if (close) {
       onChange(newValue);
       setEditing(false);
@@ -125,7 +105,7 @@ export const EditableText = ({ edit, formatValue=(v) => v, locked, onChange, ren
   else {
     return renderEditable({
       onBlur: handleBlur,
-      onChange: (e: string | number | null, close?: boolean) => handleChange(e, close),
+      onChange: (e: Type, close?: boolean) => handleChange(e, close),
       onFocus: (e) => e.target.select(),
       onKeyUp: handleKeypress,
       sx,
@@ -133,4 +113,34 @@ export const EditableText = ({ edit, formatValue=(v) => v, locked, onChange, ren
     });
   }
 
+};
+
+const renderEditableText = ({ onBlur, onChange, onFocus, onKeyUp, sx, value }: RenderEditableProps<string>): JSX.Element => (
+  <TextField
+    autoFocus
+    inputProps={{
+      style: {
+        fontWeight: 'inherit',
+        padding: '2px 8px'
+      }
+    }}
+    margin='none'
+    onBlur={onBlur}
+    onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
+    onFocus={onFocus}
+    onKeyUp={onKeyUp}
+    size='small'
+    sx={sx}
+    value={value}
+  />
+);
+
+export const EditableText = (props: Omit<EditableProps<string>, 'renderEditable'>) => {
+  const StringEditable = Editable<string>;
+  return (
+    <StringEditable
+      renderEditable={renderEditableText}
+      {...props}
+    />
+  );
 };
