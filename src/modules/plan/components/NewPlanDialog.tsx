@@ -6,6 +6,8 @@ import {
   Dialog, DialogActions, DialogContent, DialogTitle,
   TextField
 } from '@mui/material';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import type { Dayjs } from 'dayjs';
 
 import { actions as dialogActions, selectors as dialogSelectors } from '../../dialogs';
 import { createNew } from '../slice';
@@ -17,6 +19,7 @@ export const NewPlanDialog = () => {
   const dispatch = useDispatch();
 
   const [planName, setPlanName] = useState('');
+  const [date, setPlanDate] = useState<Dayjs | null>(null);
 
   const close = () => {
     dispatch(dialogActions.hide());
@@ -24,7 +27,7 @@ export const NewPlanDialog = () => {
   };
 
   const submit = () => {
-    dispatch(createNew(planName));
+    dispatch(createNew({ name: planName, date: date?.unix() || undefined }));
     close();
   };
 
@@ -50,6 +53,21 @@ export const NewPlanDialog = () => {
           onKeyUp={handleKeypress}
           required
           value={planName}
+        />
+        <DesktopDatePicker
+          inputFormat="YYYY-MM-DD"
+          label="Plan date (optional)"
+          onChange={d => setPlanDate(d) }
+          renderInput={
+            (params) => (
+              <TextField
+                fullWidth
+                margin='dense'
+                {...params}
+              />
+            )
+          }
+          value={date}
         />
       </DialogContent>
       <DialogActions>

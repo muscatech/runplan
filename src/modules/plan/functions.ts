@@ -7,13 +7,14 @@ import type { DragItem, Plan } from './interfaces';
 import { ItemType } from '../itemTypes/interfaces';
 import { RefObject } from 'react';
 
-export function createPlan(name: string): Plan {
+export function createPlan(name: string, date?: number): Plan {
   const id = uuidV4();
 
   return {
     id,
     name,
     items: [],
+    date,
     meta: {
       lastModified: Date.now()
     }

@@ -21,6 +21,11 @@ const initialState: PlansState = {
   plans: {}
 };
 
+interface CreateNewOptions {
+  name: string,
+  date?: number
+}
+
 interface AddItemOptions {
   planID: string,
   type: ItemType,
@@ -48,8 +53,8 @@ export const plansSlice = createSlice({
   name: 'plans',
   initialState,
   reducers: {
-    createNew: (state: PlansState, action: PayloadAction<string>) => {
-      const newPlan: Plan = createPlan(action.payload);
+    createNew: (state: PlansState, action: PayloadAction<CreateNewOptions>) => {
+      const newPlan: Plan = createPlan(action.payload.name, action.payload.date);
       state.plans[newPlan.id] = newPlan;
       state.currentPlan = newPlan.id;
     },

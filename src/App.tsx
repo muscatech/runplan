@@ -1,4 +1,6 @@
 import { ThemeProvider } from '@mui/material/styles';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Provider } from 'react-redux';
@@ -15,22 +17,24 @@ import { WrongPrintMessage } from './components/WrongPrintMessage';
 
 function App() {
   return (
-    <Provider store={store}>
-      <PersistGate
-        loading={null}
-        persistor={persistor}
-      >
-        <ThemeProvider theme={theme}>
-          <DndProvider backend={HTML5Backend}>
-            <WrongPrintMessage />
-            <Page />
-          </DndProvider>
-          <NewItemTypeDialog />
-          <NewPlanDialog />
-          <ChoosePlanDialog />
-        </ThemeProvider>
-      </PersistGate>
-    </Provider>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Provider store={store}>
+        <PersistGate
+          loading={null}
+          persistor={persistor}
+        >
+          <ThemeProvider theme={theme}>
+            <DndProvider backend={HTML5Backend}>
+              <WrongPrintMessage />
+              <Page />
+            </DndProvider>
+            <NewItemTypeDialog />
+            <NewPlanDialog />
+            <ChoosePlanDialog />
+          </ThemeProvider>
+        </PersistGate>
+      </Provider>
+    </LocalizationProvider>
   );
 }
 

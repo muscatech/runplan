@@ -7,6 +7,7 @@ interface PlanMeta {
 export interface Plan {
   id: string,
   name: string,
+  date?: number,
   items: Item[],
   meta: PlanMeta
 }
