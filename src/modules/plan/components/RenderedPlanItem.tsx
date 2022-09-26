@@ -10,6 +10,14 @@ import { useDroppableRow } from "../functions";
 
 const ITEM_CELL_PADDING = 0.5;
 
+const createTypeStyle = (type: ItemType) =>  ({ backgroundColor: type.color, fontWeight: 'bold' });
+
+const TYPOGRAPHY_STYLE = {
+  fontFamily: 'inherit',
+  fontWeight: 'inherit',
+  padding: ITEM_CELL_PADDING
+};
+
 interface RenderedPlanItemProps {
   editable?: boolean,
   index: number,
@@ -22,12 +30,7 @@ interface RenderedPlanItemProps {
 
 export const RenderedPlanItem = ({ editable, index, item, onInsert, onMove, onUpdate, type }: RenderedPlanItemProps) => {
 
-  const typeStyle = { backgroundColor: type.color, fontWeight: 'bold' };
-  const typographyStyle = {
-    fontFamily: 'inherit',
-    fontWeight: 'inherit',
-    padding: ITEM_CELL_PADDING
-  };
+  const ref = useRef<HTMLTableRowElement>(null);
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'EXISTING_ITEM',
@@ -41,8 +44,6 @@ export const RenderedPlanItem = ({ editable, index, item, onInsert, onMove, onUp
     })
   }));
 
-  const ref = useRef<HTMLTableRowElement>(null);
-
   const [{ handlerId }, drop] = useDroppableRow(ref, index, onInsert, onMove);
 
   drag(drop(ref));
@@ -53,6 +54,8 @@ export const RenderedPlanItem = ({ editable, index, item, onInsert, onMove, onUp
     },
     [index, item]
   );
+
+  const typeStyle = createTypeStyle(type);
 
   return (
     <tr
@@ -66,7 +69,7 @@ export const RenderedPlanItem = ({ editable, index, item, onInsert, onMove, onUp
       {
         !type.isSectionHeading && (
           <td style={typeStyle}>
-            <Typography sx={typographyStyle}>
+            <Typography sx={TYPOGRAPHY_STYLE}>
               { type.name }
             </Typography>
           </td>
@@ -80,7 +83,7 @@ export const RenderedPlanItem = ({ editable, index, item, onInsert, onMove, onUp
           edit={item.isNew && editable}
           locked={!editable || isDragging}
           onChange={(newName) => updateItem({ name: newName })}
-          sx={typographyStyle}
+          sx={TYPOGRAPHY_STYLE}
           value={item.name}
         />
       </td>
@@ -88,7 +91,7 @@ export const RenderedPlanItem = ({ editable, index, item, onInsert, onMove, onUp
         <EditableText
           locked={!editable || isDragging}
           onChange={(newRemark) => updateItem({ remark: newRemark })}
-          sx={typographyStyle}
+          sx={TYPOGRAPHY_STYLE}
           value={item.remark || ''}
         />
       </td>
