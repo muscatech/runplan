@@ -21,7 +21,7 @@ const ItemsTable = styled.table`
   border-collapse: collapse;
   width: 100%;
 
-  margin-top: ${ props => props.theme.spacing(4) };
+  margin-top: ${ props => props.theme.spacing(2) };
 
   font-family: Arial, sans-serif;
 

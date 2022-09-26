@@ -8,6 +8,7 @@ import type { ItemType } from "../../itemTypes";
 import type { Item, Plan } from "../interfaces";
 import { addItem, movePlanItem, updatePlan, updatePlanItem } from "../slice";
 import { RenderedPlanItems } from "./RenderedPlanItems";
+import { RenderedPlanPeople } from "./RenderedPlanPeople";
 
 interface Props {
   editable?: boolean,
@@ -43,6 +44,10 @@ export const RenderedPlan = ({ editable, plan }: Props): JSX.Element => {
         sx={{ textAlign: 'right', width: '100%' }}
         value={plan.date ? dayjs(plan.date * 1000) : undefined}
         variant='h5'
+      />
+      <RenderedPlanPeople
+        editable={editable}
+        people={plan.people}
       />
       <RenderedPlanItems
         editable={editable}
