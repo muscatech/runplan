@@ -92,7 +92,9 @@ export const AddItemButtons = ({ planID }: AddItemButtonsProps) => {
         orientation='vertical'
       >
         {
-          Object.values(allTypes).map(
+          Object.values(allTypes).sort(
+            (a, b) => a.name.localeCompare(b.name)
+          ).map(
             (t: ItemType) => (
               <AddItem
                 itemType={t}
