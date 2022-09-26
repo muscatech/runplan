@@ -80,11 +80,11 @@ export const RenderedPlanItem = ({ editable, index, item, onInsert, onMove, onUp
         style={typeStyle}
       >
         <EditableText
-          edit={item.isNew && editable}
-          locked={!editable || isDragging}
+          edit={item.isNew && editable && !type.fixedName}
+          locked={!editable || isDragging || type.fixedName}
           onChange={(newName) => updateItem({ name: newName })}
           sx={TYPOGRAPHY_STYLE}
-          value={item.name}
+          value={type.fixedName ? type.name : item.name}
         />
       </td>
       <td>

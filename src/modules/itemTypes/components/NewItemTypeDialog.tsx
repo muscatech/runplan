@@ -4,6 +4,7 @@ import {
   Button,
   Dialog, DialogActions, DialogContent, DialogTitle,
   FormControlLabel,
+  Stack,
   Switch,
   TextField
 } from '@mui/material';
@@ -21,7 +22,7 @@ export const NewItemTypeDialog = () => {
   const isOpen = currentDialog === 'newItemType';
   const dispatch = useDispatch();
 
-  const [it, setIt] = useState<NewItemType>({ name: '', color: '#ffffff', isSectionHeading: false });
+  const [it, setIt] = useState<NewItemType>({ name: '', color: '#ffffff', isSectionHeading: false, fixedName: false });
 
   const close = () => {
     dispatch(dialogActions.hide());
@@ -55,15 +56,27 @@ export const NewItemTypeDialog = () => {
           onChange={c => setIt(i => ({ ...i, color: c }))}
           value={it.color}
         />
-        <FormControlLabel
-          control={
-            <Switch
-              onChange={e => setIt(i => ({ ...i, isSectionHeading: e.target.checked }))}
-              value={it.isSectionHeading}
-            />
-          }
-          label="This is a section heading"
-        />
+        <Stack direction='row'>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={it.isSectionHeading}
+                onChange={e => setIt(i => ({ ...i, isSectionHeading: e.target.checked, fixedName: i.fixedName && e.target.checked }))}
+              />
+            }
+            label="This is a section heading"
+          />
+          <FormControlLabel
+            control={
+              <Switch
+                checked={it.isSectionHeading && it.fixedName}
+                disabled={!it.isSectionHeading}
+                onChange={e => setIt(i => ({ ...i, fixedName: e.target.checked }))}
+              />
+            }
+            label="Always use type name as item name"
+          />
+        </Stack>
       </DialogContent>
       <DialogActions>
         <Button onClick={close}>Cancel</Button>

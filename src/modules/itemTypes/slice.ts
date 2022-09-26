@@ -18,11 +18,15 @@ const slice = createSlice({
   initialState,
   reducers: {
     addNew: (state, action: PayloadAction<NewItemType>) => {
-      const newID = uuidV4();
-      state[newID] = {
-        id: newID,
+      const newbie = {
+        id: uuidV4(),
         ...action.payload
       };
+
+      // Only allow fixed-name item types if they're also section headings
+      newbie.fixedName = newbie.fixedName && newbie.isSectionHeading;
+
+      state[newbie.id] = newbie;
     }
   }
 });

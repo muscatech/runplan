@@ -50,7 +50,7 @@ const AddItem = ({ itemType, onClick }: AddItemProps): JSX.Element => {
         sx={{ color: 'text.secondary', lineHeight: 1 }}
         variant='overline'
       >
-        { itemType.isSectionHeading ? 'Heading' : 'Item' }
+        { itemType.isSectionHeading && !itemType.fixedName ? 'Heading' : 'Item' }
       </Typography>
     </AddItemInner>
   );
