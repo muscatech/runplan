@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 
 import { EditableDate } from "../../../components/EditableDate";
 import { EditableText } from "../../../components/EditableText";
-import type { ItemType } from "../../itemTypes/interfaces";
+import type { ItemType } from "../../itemTypes";
 import type { Item, Plan } from "../interfaces";
 import { addItem, movePlanItem, updatePlan, updatePlanItem } from "../slice";
 import { RenderedPlanItems } from "./RenderedPlanItems";

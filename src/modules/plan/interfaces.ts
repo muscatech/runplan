@@ -1,4 +1,4 @@
-import type { ItemType } from "../itemTypes/interfaces";
+import type { ItemType } from "../itemTypes";
 
 interface PlanMeta {
   lastModified: number

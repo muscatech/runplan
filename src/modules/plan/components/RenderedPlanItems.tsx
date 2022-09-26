@@ -1,6 +1,8 @@
 import { useRef } from "react";
 import styled from "styled-components";
-import type { ItemType } from "../../itemTypes/interfaces";
+
+import { UnknownItemType } from "../../itemTypes";
+import type { ItemType } from "../../itemTypes";
 import { allItemTypes } from "../../itemTypes/selectors";
 import { useDroppableRow } from "../functions";
 import type { Item } from "../interfaces";
@@ -110,7 +112,7 @@ export const RenderedPlanItems = ({ editable, items, onAddItem, onMoveItem, onUp
                 onInsert={addItem}
                 onMove={moveItem}
                 onUpdate={updateItem}
-                type={itemTypes[item.type]}
+                type={itemTypes[item.type] || UnknownItemType}
               />
             )
           )

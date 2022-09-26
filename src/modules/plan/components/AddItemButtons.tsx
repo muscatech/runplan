@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { Box, Button, ButtonGroup, Typography } from "@mui/material";
 
-import type { ItemType } from "../../itemTypes/interfaces";
+import type { ItemType } from "../../itemTypes";
 
 import { selectors as itemTypeSelectors } from '../../itemTypes';
 import { actions as dialogActions } from '../../dialogs';
