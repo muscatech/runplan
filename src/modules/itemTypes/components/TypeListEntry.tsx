@@ -3,13 +3,17 @@ import { ButtonGroup, IconButton, ListItem } from "@mui/material";
 import type { ItemType } from "../interfaces";
 
 interface TypeEntryButtonsProps {
-  onDelete: () => void
+  onDelete: () => void,
+  onEdit: () => void
 }
 
-const TypeEntryButtons = ({ onDelete }: TypeEntryButtonsProps) => {
+const TypeEntryButtons = ({ onDelete, onEdit }: TypeEntryButtonsProps) => {
   return (
     <ButtonGroup>
-      <IconButton title='Edit'>
+      <IconButton
+        onClick={onEdit}
+        title='Edit'
+      >
         <Edit />
       </IconButton>
       <IconButton
@@ -25,15 +29,17 @@ const TypeEntryButtons = ({ onDelete }: TypeEntryButtonsProps) => {
 
 interface TypeListEntryProps {
   itemType: ItemType,
-  onDelete: (itemType: ItemType) => void
+  onDelete: (itemType: ItemType) => void,
+  onEdit: (itemType: ItemType) => void
 }
 
-export const TypeListEntry = ({ itemType, onDelete }: TypeListEntryProps) => {
+export const TypeListEntry = ({ itemType, onDelete, onEdit }: TypeListEntryProps) => {
   return (
     <ListItem
       secondaryAction={(
         <TypeEntryButtons
           onDelete={() => onDelete(itemType)}
+          onEdit={() => onEdit(itemType)}
         />
       )}
       sx={{

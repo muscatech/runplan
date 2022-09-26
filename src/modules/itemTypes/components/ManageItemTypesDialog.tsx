@@ -8,6 +8,7 @@ import { allItemTypes } from '../selectors';
 import type { ItemType } from '../interfaces';
 import { DeleteConfirmationDialog } from './DeleteConfirmationDialog';
 import { TypeListEntry } from './TypeListEntry';
+import { EditItemTypeDialog } from './EditItemTypeDialog';
 
 
 
@@ -19,6 +20,7 @@ export const ManageItemTypesDialog = () => {
   const allTypes: ItemType[] = Object.values(allItemTypes());
 
   const [pendingDelete, setPendingDelete] = useState<ItemType | null>(null);
+  const [editingType, setEditingType] = useState<ItemType | null>(null);
 
   const close = () => {
     dispatch(dialogActions.hide());
@@ -41,6 +43,7 @@ export const ManageItemTypesDialog = () => {
                   itemType={it}
                   key={it.id}
                   onDelete={setPendingDelete}
+                  onEdit={setEditingType}
                 />
               )
             )
@@ -49,6 +52,10 @@ export const ManageItemTypesDialog = () => {
         <DeleteConfirmationDialog
           pendingDelete={pendingDelete}
           setPendingDelete={setPendingDelete}
+        />
+        <EditItemTypeDialog
+          editingType={editingType}
+          setEditingType={setEditingType}
         />
       </DialogContent>
       <DialogActions>

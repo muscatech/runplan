@@ -32,9 +32,12 @@ const slice = createSlice({
     },
     deleteType: (state: State, action: PayloadAction<string>) => {
       delete state[action.payload];
+    },
+    updateType: (state: State, action: PayloadAction<ItemType>) => {
+      state[action.payload.id] = action.payload;
     }
   }
 });
 
-export const { addNew, deleteType } = slice.actions;
+export const { addNew, deleteType, updateType } = slice.actions;
 export default slice.reducer;
