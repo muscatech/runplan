@@ -13,7 +13,7 @@ const COLOR_OPTIONS = [
   "#ffc107",
   "#ff9800",
   "#ff5722",
-  "#C0C0C0",
+  "#CFCFCF",
   "#ffffff"
 ];
 
