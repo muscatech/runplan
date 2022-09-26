@@ -68,6 +68,10 @@ export const AddItemButtons = ({ planID }: AddItemButtonsProps) => {
     dispatch(dialogActions.show('newItemType'));
   };
 
+  const showManageTypesDialog = () => {
+    dispatch(dialogActions.show('manageItemTypes'));
+  };
+
   const addItemToPlan = (type: ItemType) => {
     dispatch(addItem({ planID, type }));
   };
@@ -98,6 +102,8 @@ export const AddItemButtons = ({ planID }: AddItemButtonsProps) => {
             )
           )
         }
+      </ButtonGroup>
+      <ButtonGroup fullWidth>
         <Button
           onClick={showNewTypeDialog}
           sx={{
@@ -106,8 +112,15 @@ export const AddItemButtons = ({ planID }: AddItemButtonsProps) => {
         >
           Add item type
         </Button>
+        <Button
+          onClick={showManageTypesDialog}
+          sx={{
+            my: 0.5
+          }}
+        >
+          Manage item types
+        </Button>
       </ButtonGroup>
-
     </Box>
   );
 };

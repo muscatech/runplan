@@ -4,7 +4,9 @@ import { v4 as uuidV4 } from 'uuid';
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { ItemType, NewItemType } from "./interfaces";
 
-const initialState: Record<string, ItemType> = {
+type State = Record<string, ItemType>;
+
+const initialState: State = {
   '_section': {
     id: '_section',
     name: 'Section',
@@ -17,7 +19,7 @@ const slice = createSlice({
   name: 'itemTypes',
   initialState,
   reducers: {
-    addNew: (state, action: PayloadAction<NewItemType>) => {
+    addNew: (state: State, action: PayloadAction<NewItemType>) => {
       const newbie = {
         id: uuidV4(),
         ...action.payload
@@ -27,9 +29,12 @@ const slice = createSlice({
       newbie.fixedName = newbie.fixedName && newbie.isSectionHeading;
 
       state[newbie.id] = newbie;
+    },
+    deleteType: (state: State, action: PayloadAction<string>) => {
+      delete state[action.payload];
     }
   }
 });
 
-export const { addNew } = slice.actions;
+export const { addNew, deleteType } = slice.actions;
 export default slice.reducer;

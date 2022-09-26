@@ -11,7 +11,7 @@ import { theme } from './theme';
 
 import { store, persistor } from './store';
 import { NewPlanDialog } from './modules/plan';
-import { NewItemTypeDialog } from './modules/itemTypes/components';
+import { ManageItemTypesDialog, NewItemTypeDialog } from './modules/itemTypes/components';
 import { ChoosePlanDialog } from './modules/plan/components/ChoosePlanDialog';
 import { WrongPrintMessage } from './components/WrongPrintMessage';
 
@@ -29,6 +29,7 @@ function App() {
               <Page />
             </DndProvider>
             <NewItemTypeDialog />
+            <ManageItemTypesDialog />
             <NewPlanDialog />
             <ChoosePlanDialog />
           </ThemeProvider>
