@@ -62,7 +62,7 @@ export const RenderedPlanItem = ({ editable, index, item, onInsert, onMove, onUp
         opacity: isDragging ? 0.1 : 1
       }}
     >
-      <td></td>
+      <td style={typeStyle}></td>
       {
         !type.isSectionHeading && (
           <td style={typeStyle}>
