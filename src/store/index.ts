@@ -15,6 +15,7 @@ import {
 import { plansReducer } from '../modules/plan';
 import { reducer as dialogsReducer } from '../modules/dialogs';
 import { reducer as itemTypesReducer } from '../modules/itemTypes';
+import { rolesReducer } from '../modules/roles';
 
 const persistConfig = {
   blacklist: [
@@ -27,7 +28,8 @@ const persistConfig = {
 const combinedReducer = combineReducers({
   dialogs: dialogsReducer,
   itemTypes: itemTypesReducer,
-  plans: plansReducer
+  plans: plansReducer,
+  roles: rolesReducer
 });
 
 export const store = configureStore({

@@ -81,15 +81,25 @@ export const AddItemButtons = ({ planID }: AddItemButtonsProps) => {
   return (
     <Box
       sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: 'calc(100% - 32px)',
+        minHeight: 0,
         padding: 2
       }}
     >
+      <Typography variant='h6'>Add items to plan</Typography>
       <Typography sx={{ mb: 2 }}>
         Click or drag into the plan to add items
       </Typography>
       <ButtonGroup
         fullWidth
         orientation='vertical'
+        sx={{
+          flexGrow: 1,
+          minHeight: 0,
+          overflowY: 'auto'
+        }}
       >
         {
           Object.values(allTypes).sort(
