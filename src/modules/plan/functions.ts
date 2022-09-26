@@ -17,7 +17,8 @@ export function createPlan(name: string, date?: number): Plan {
     date,
     meta: {
       lastModified: Date.now()
-    }
+    },
+    people: []
   };
 }
 

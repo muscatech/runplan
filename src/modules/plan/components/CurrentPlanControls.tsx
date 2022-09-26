@@ -24,7 +24,7 @@ export const CurrentPlanControls = ({ plan }: Props) : JSX.Element => {
     >
       <Inner>
         <AddItemButtons planID={plan.id} />
-        <AddPeopleButtons />
+        <AddPeopleButtons planID={plan.id} />
       </Inner>
     </Paper>
   );

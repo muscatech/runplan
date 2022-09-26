@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { arrayMoveImmutable } from 'array-move';
 import { v4 as uuidV4 } from 'uuid';
 
-import type { Item, Plan } from './interfaces';
+import type { Item, NewPerson, Person, Plan } from './interfaces';
 import { createPlan } from './functions';
 import type { ItemType } from '../itemTypes/interfaces';
 
@@ -47,6 +47,11 @@ interface MovePlanItemOptions {
 interface DeletePlanItemOptions {
   planID: string,
   index: number
+}
+
+interface AddPersonOptions {
+  planID: string,
+  person: NewPerson
 }
 
 export const plansSlice = createSlice({
@@ -128,9 +133,24 @@ export const plansSlice = createSlice({
     deletePlanItem: (state: PlansState, action: PayloadAction<DeletePlanItemOptions>) => {
       const currentPlan = state.plans[action.payload.planID];
       currentPlan.items.splice(action.payload.index, 1);
+    },
+
+    addPerson: (state: PlansState, action: PayloadAction<AddPersonOptions>) => {
+      const currentPlan = state.plans[action.payload.planID];
+
+      const newPerson: Person = {
+        id: uuidV4(),
+        ...action.payload.person
+      };
+
+      currentPlan.people.push(newPerson);
     }
   }
 });
 
-export const { addItem, choosePlan, createNew, deletePlanItem, movePlanItem, updatePlan, updatePlanItem } = plansSlice.actions;
+export const {
+  addItem, deletePlanItem, movePlanItem, updatePlanItem,
+  choosePlan, createNew, updatePlan,
+  addPerson
+} = plansSlice.actions;
 export default plansSlice.reducer;

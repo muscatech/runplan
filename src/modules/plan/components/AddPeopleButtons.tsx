@@ -1,12 +1,24 @@
+import { useState } from "react";
 import { Box, Button, ButtonGroup, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
 
 import { actions as dialogActions } from '../../dialogs';
 import { NEW_ROLE_DIALOG } from "../../roles";
+import type { Role } from '../../roles';
+import { allRolesSelector } from "../../roles/selectors";
+import { CreatePersonDialog } from "./CreatePersonDialog";
 
-export const AddPeopleButtons = () => {
+interface Props {
+  planID: string
+}
+
+export const AddPeopleButtons = ({ planID }: Props) => {
 
   const dispatch = useDispatch();
+
+  const allRoles: Role[] = Object.values(allRolesSelector());
+
+  const [pendingAdd, setPendingAdd] = useState<Role>();
 
   const showNewRoleDialog = () => {
     dispatch(dialogActions.show(NEW_ROLE_DIALOG));
@@ -35,7 +47,18 @@ export const AddPeopleButtons = () => {
           overflowY: 'auto'
         }}
       >
-
+        {
+          allRoles.sort((a, b) => a.name.localeCompare(b.name)).map(
+            role => (
+              <Button
+                key={role.id}
+                onClick={() => setPendingAdd(role)}
+              >
+                {role.name}
+              </Button>
+            )
+          )
+        }
       </ButtonGroup>
       <ButtonGroup fullWidth>
         <Button
@@ -55,6 +78,11 @@ export const AddPeopleButtons = () => {
           Manage roles
         </Button>
       </ButtonGroup>
+      <CreatePersonDialog
+        clearRole={() => setPendingAdd(undefined)}
+        planID={planID}
+        role={pendingAdd}
+      />
     </Box>
   );
 };
