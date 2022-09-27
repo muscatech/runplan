@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { RoleCategory } from "../../roles";
 import type { Person } from "../interfaces";
 import { RenderedPerson } from "./RenderedPerson";
 
@@ -6,6 +7,7 @@ const PeopleTable = styled.table`
 
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
 
   margin-top: ${ props => props.theme.spacing(2) };
   font-family: Arial, sans-serif;
@@ -27,7 +29,10 @@ export const RenderedPlanPeople = ({ people }: Props) => {
       groups[person.role.category].push(person);
       return groups;
     },
-    { 'talent': [] } // Ensure "talent" category comes first
+    Object.fromEntries(
+      // Ensure "talent" category comes first by using ordering of RoleCategory
+      Object.values(RoleCategory).map(c => [c, []])
+    )
   );
 
   const entriesPerCategory = Object.entries(peopleByCategory);
