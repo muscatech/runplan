@@ -11,6 +11,7 @@ const PeopleTable = styled.table`
 
   margin-top: ${ props => props.theme.spacing(2) };
   font-family: Arial, sans-serif;
+  font-size: small;
 
 `;
 
@@ -62,6 +63,14 @@ export const RenderedPlanPeople = ({ people }: Props) => {
 
   return (
     <PeopleTable>
+      <colgroup>
+        <col style={{ width: '5em' }} />
+        <col style={{ width: 'calc(33% - 5em)' }} />
+        <col style={{ width: '16.67%' }} />
+        <col style={{ width: '16.67%' }} />
+        <col style={{ width: '16.67%' }} />
+        <col style={{ width: '16.67%' }} />
+      </colgroup>
       <tbody>
         {
           [...Array(maxPeoplePerCategory)].map(
