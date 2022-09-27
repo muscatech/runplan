@@ -7,6 +7,7 @@ import type { Role } from "../../roles";
 import type { NewPerson } from "../interfaces";
 import { useDispatch } from "react-redux";
 import { addPerson } from "../slice";
+import { initialify } from "../functions";
 
 interface Props {
   clearRole: () => void,
@@ -17,11 +18,20 @@ interface Props {
 export const CreatePersonDialog = ({ planID, role, clearRole }: Props) => {
 
   const [name, setName] = useState<string>('');
+  const [initials, setInitials] = useState<string>('');
+
   const dispatch = useDispatch();
 
   const close = () => {
     setName('');
+    setInitials('');
     clearRole();
+  };
+
+  const updateName = (e: ChangeEvent<HTMLInputElement>) => {
+    const newName = e.target.value;
+    setName(newName);
+    setInitials(initialify(newName));
   };
 
   const createPerson = () => {
@@ -30,6 +40,10 @@ export const CreatePersonDialog = ({ planID, role, clearRole }: Props) => {
         role,
         name
       };
+
+      if (role.useInitialsNotRole) {
+        person.initials = initials;
+      }
 
       close();
       dispatch(addPerson({ planID, person }));
@@ -54,10 +68,21 @@ export const CreatePersonDialog = ({ planID, role, clearRole }: Props) => {
           fullWidth
           label='Name'
           margin='dense'
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+          onChange={updateName}
           onKeyUp={handleKeypress}
           value={name}
         />
+        {
+          role?.useInitialsNotRole && (
+            <TextField
+              label='Initials'
+              margin='dense'
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setInitials(e.target.value)}
+              onKeyUp={handleKeypress}
+              value={initials}
+            />
+          )
+        }
       </DialogContent>
       <DialogActions>
         <Button

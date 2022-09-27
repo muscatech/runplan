@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { initialify } from "../functions";
 import type { Person } from "../interfaces";
 
 const PersonCell = styled.td`
@@ -22,15 +23,11 @@ interface Props {
   person: Person
 }
 
-const initialify = (name: string): string => {
-  return name.split(/[ -]/).map(n => n[0]).join('').toUpperCase();
-};
-
 export const RenderedPerson = ({ person }: Props): JSX.Element => {
   if (person) {
     return (
       <>
-        <RoleCell>{person.role.useInitialsNotRole ? initialify(person.name) : person.role.name}</RoleCell>
+        <RoleCell>{person.role.useInitialsNotRole ? person.initials || initialify(person.name) : person.role.name}</RoleCell>
         <PersonCell>{person.name}</PersonCell>
       </>
     );

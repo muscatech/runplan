@@ -22,6 +22,10 @@ export function createPlan(name: string, date?: number): Plan {
   };
 }
 
+export const initialify = (name: string): string => {
+  return name.split(/[ -]/).map(n => n[0]).join('').toUpperCase();
+};
+
 export const useDroppableRow = (
   ref: RefObject<HTMLTableRowElement>,
   index: number,

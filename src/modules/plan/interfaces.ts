@@ -8,6 +8,7 @@ interface PlanMeta {
 export interface Person {
   id: string,
   name: string,
+  initials?: string,
   role: Role
 }
 
