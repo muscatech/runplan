@@ -42,6 +42,24 @@ export const RenderedPlanPeople = ({ people }: Props) => {
     0
   );
 
+  const countPerRole: Record<string, number> = {};
+
+  Object.values(peopleByCategory).forEach(
+    people => {
+      people.sort(
+        (a, b) => a.role.name.localeCompare(b.role.name)
+      );
+
+      people.forEach(
+        p => {
+          countPerRole[p.role.id] = (countPerRole[p.role.id] || 0) + 1;
+        }
+      );
+    }
+  );
+
+  const processedRoles: Record<string, number> = {};
+
   return (
     <PeopleTable>
       <tbody>
@@ -51,12 +69,20 @@ export const RenderedPlanPeople = ({ people }: Props) => {
               <tr key={idx}>
                 {
                   entriesPerCategory.map(
-                    ([category, people]) => (
-                      <RenderedPerson
-                        key={category}
-                        person={people[idx]}
-                      />
-                    )
+                    ([category, people]) => {
+                      const person: Person = people[idx];
+
+                      processedRoles[person?.role.id] = (processedRoles[person?.role.id] || 0) + 1;
+
+                      return (
+                        <RenderedPerson
+                          key={category}
+                          person={person}
+                          roleCount={countPerRole[person?.role.id]}
+                          roleIndex={processedRoles[person?.role.id]}
+                        />
+                      );
+                    }
                   )
                 }
               </tr>
