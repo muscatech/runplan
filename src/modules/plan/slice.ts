@@ -155,7 +155,18 @@ export const plansSlice = createSlice({
       const currentPlan = state.plans[action.payload.planID];
 
       currentPlan.people = currentPlan.people.map(
-        p => p.id === action.payload.person.id ? action.payload.person : p
+        p => {
+          if (p.id === action.payload.person.id) {
+            const newP = { ...action.payload.person };
+            if (newP.role.name !== p.role.name) {
+              delete newP.role.id; // Remove link from role definition if we've changed its name
+            }
+            return newP;
+          }
+          else {
+            return p;
+          }
+        }
       );
     }
   }

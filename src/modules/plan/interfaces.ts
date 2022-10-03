@@ -1,5 +1,5 @@
 import type { ItemType } from "../itemTypes";
-import type { Role } from "../roles";
+import type { NewRole, Role } from "../roles";
 
 interface PlanMeta {
   lastModified: number
@@ -9,7 +9,7 @@ export interface Person {
   id: string,
   name: string,
   initials?: string,
-  role: Role
+  role: Partial<Role> & NewRole  // id on this role is optional if we change any of its attributes
 }
 
 export type NewPerson = Omit<Person, 'id'>;
