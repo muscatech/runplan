@@ -6,12 +6,13 @@ import { Editable } from "./EditableText";
 import type { EditableProps, RenderEditableProps } from "./EditableText";
 import { TextField } from '@mui/material';
 
-const renderEditable = ({ onChange, onFocus, onKeyUp, sx, value }: RenderEditableProps<number | null>): JSX.Element => (
+const renderEditable = ({ onBlur, onChange, onFocus, onKeyUp, sx, value }: RenderEditableProps<number | null>): JSX.Element => (
   <DesktopDatePicker
     inputFormat="YYYY-MM-DD"
     label="Plan date (optional)"
     onAccept={(newDate) => { onChange(newDate?.unix() || null, true); }}
     onChange={(newDate) => onChange(newDate?.unix() || null)}
+    onClose={onBlur}
     open
     renderInput={
       (params) => (
