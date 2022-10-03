@@ -17,10 +17,11 @@ const PeopleTable = styled.table`
 
 interface Props {
   editable?: boolean,
+  onUpdate: (p: Person) => void,
   people: Person[],
 }
 
-export const RenderedPlanPeople = ({ people }: Props) => {
+export const RenderedPlanPeople = ({ editable, onUpdate, people }: Props) => {
 
   const peopleByCategory = people.reduce<Record<string, Person[]>>(
     (groups, person) => {
@@ -53,7 +54,7 @@ export const RenderedPlanPeople = ({ people }: Props) => {
 
       people.forEach(
         p => {
-          countPerRole[p.role.id] = (countPerRole[p.role.id] || 0) + 1;
+          countPerRole[p.role.name] = (countPerRole[p.role.name] || 0) + 1;
         }
       );
     }
@@ -81,14 +82,16 @@ export const RenderedPlanPeople = ({ people }: Props) => {
                     ([category, people]) => {
                       const person: Person = people[idx];
 
-                      processedRoles[person?.role.id] = (processedRoles[person?.role.id] || 0) + 1;
+                      processedRoles[person?.role.name] = (processedRoles[person?.role.name] || 0) + 1;
 
                       return (
                         <RenderedPerson
+                          editable={editable}
                           key={category}
+                          onChange={onUpdate}
                           person={person}
-                          roleCount={countPerRole[person?.role.id]}
-                          roleIndex={processedRoles[person?.role.id]}
+                          roleCount={countPerRole[person?.role.name]}
+                          roleIndex={processedRoles[person?.role.name]}
                         />
                       );
                     }

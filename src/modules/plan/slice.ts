@@ -54,6 +54,11 @@ interface AddPersonOptions {
   person: NewPerson
 }
 
+interface UpdatePersonOptions {
+  planID: string,
+  person: Person
+}
+
 export const plansSlice = createSlice({
   name: 'plans',
   initialState,
@@ -144,6 +149,14 @@ export const plansSlice = createSlice({
       };
 
       currentPlan.people.push(newPerson);
+    },
+
+    updatePerson: (state: PlansState, action: PayloadAction<UpdatePersonOptions>) => {
+      const currentPlan = state.plans[action.payload.planID];
+
+      currentPlan.people = currentPlan.people.map(
+        p => p.id === action.payload.person.id ? action.payload.person : p
+      );
     }
   }
 });
@@ -151,6 +164,6 @@ export const plansSlice = createSlice({
 export const {
   addItem, deletePlanItem, movePlanItem, updatePlanItem,
   choosePlan, createNew, updatePlan,
-  addPerson
+  addPerson, updatePerson
 } = plansSlice.actions;
 export default plansSlice.reducer;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { EditableText } from "../../../components/EditableText";
 import { initialify } from "../functions";
 import type { Person } from "../interfaces";
 
@@ -21,16 +22,30 @@ const EmptyCell = styled.td`
 
 interface Props {
   editable?: boolean,
+  onChange: (p: Person) => void,
   person: Person,
   roleCount: number,
   roleIndex: number
 }
 
-export const RenderedPerson = ({ person, roleCount, roleIndex }: Props): JSX.Element => {
+export const RenderedPerson = ({ editable, onChange, person, roleCount, roleIndex }: Props): JSX.Element => {
   if (person) {
 
     const shouldRenderRole = roleCount === 1 || roleIndex === 1 || person.role.useInitialsNotRole;
     const shouldSpanRows = roleCount > 1 && !person.role.useInitialsNotRole;
+
+    const roleEditHandler = (newValue: string) => {
+      let newPerson: Person;
+
+      if (person.role.useInitialsNotRole) {
+        newPerson = { ...person, initials: newValue };
+      }
+      else {
+        newPerson = { ...person, role: { ...person.role, name: newValue } };
+      }
+
+      onChange(newPerson);
+    };
 
     return (
       <>
@@ -39,12 +54,22 @@ export const RenderedPerson = ({ person, roleCount, roleIndex }: Props): JSX.Ele
             <RoleCell
               rowSpan={shouldSpanRows ? roleCount : undefined}
             >
-              {person.role.useInitialsNotRole ? person.initials || initialify(person.name) : person.role.name}
+              <EditableText
+                locked={!editable}
+                onChange={roleEditHandler}
+                value={person.role.useInitialsNotRole ? (person.initials || initialify(person.name)) : person.role.name}
+              />
             </RoleCell>
           )
         }
 
-        <PersonCell>{person.name}</PersonCell>
+        <PersonCell>
+          <EditableText
+            locked={!editable}
+            onChange={(newName) => onChange({ ...person, name: newName })}
+            value={person.name}
+          />
+        </PersonCell>
       </>
     );
   }

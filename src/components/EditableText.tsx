@@ -120,6 +120,7 @@ const renderEditableText = ({ onBlur, onChange, onFocus, onKeyUp, sx, value }: R
     autoFocus
     inputProps={{
       style: {
+        fontSize: 'inherit',
         fontWeight: 'inherit',
         padding: '2px 8px'
       }

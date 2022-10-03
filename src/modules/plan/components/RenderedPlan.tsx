@@ -5,8 +5,8 @@ import dayjs from 'dayjs';
 import { EditableDate } from "../../../components/EditableDate";
 import { EditableText } from "../../../components/EditableText";
 import type { ItemType } from "../../itemTypes";
-import type { Item, Plan } from "../interfaces";
-import { addItem, movePlanItem, updatePlan, updatePlanItem } from "../slice";
+import type { Item, Person, Plan } from "../interfaces";
+import { addItem, movePlanItem, updatePerson, updatePlan, updatePlanItem } from "../slice";
 import { RenderedPlanItems } from "./RenderedPlanItems";
 import { RenderedPlanPeople } from "./RenderedPlanPeople";
 
@@ -47,6 +47,7 @@ export const RenderedPlan = ({ editable, plan }: Props): JSX.Element => {
       />
       <RenderedPlanPeople
         editable={editable}
+        onUpdate={(p: Person) => dispatch(updatePerson({ planID: plan.id, person: p }))}
         people={plan.people}
       />
       <RenderedPlanItems
