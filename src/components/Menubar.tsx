@@ -16,7 +16,7 @@ export const Menubar = (): JSX.Element => (
     <Toolbar>
       <Typography
         component="div"
-        sx={{ mr: 4 }}
+        sx={{ flexGrow: 1, mr: 4 }}
         variant="h6"
       >
         RunPlan
