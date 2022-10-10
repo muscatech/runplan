@@ -15,6 +15,7 @@ import { ManageItemTypesDialog, NewItemTypeDialog } from './modules/itemTypes/co
 import { ChoosePlanDialog } from './modules/plan/components/ChoosePlanDialog';
 import { WrongPrintMessage } from './components/WrongPrintMessage';
 import { NewRoleDialog } from './modules/roles';
+import { ImportDialog } from './modules/import';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <NewPlanDialog />
             <ChoosePlanDialog />
             <NewRoleDialog />
+            <ImportDialog />
           </ThemeProvider>
         </PersistGate>
       </Provider>

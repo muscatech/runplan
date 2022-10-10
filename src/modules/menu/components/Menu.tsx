@@ -40,6 +40,11 @@ export const Menu = () => {
         New plan
       </MenuButton>
       <MenuButton
+        onClick={showModal('import')}
+      >
+        Import&hellip;
+      </MenuButton>
+      <MenuButton
         onClick={showModal('choosePlan')}
       >
         Plans&hellip;
