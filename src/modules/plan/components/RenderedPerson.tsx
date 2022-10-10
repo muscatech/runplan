@@ -6,13 +6,13 @@ import type { Person } from "../interfaces";
 const PersonCell = styled.td`
   border: 1px solid black;
   padding: ${ props => props.theme.spacing(1) };
+  vertical-align: top;
 `;
 
 const RoleCell = styled(PersonCell)`
   text-align: right;
   background-color: #EFEFEF;
   font-weight: bold;
-  vertical-align: top;
 `;
 
 const EmptyCell = styled.td`

@@ -7,11 +7,14 @@ const PeopleTable = styled.table`
 
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
 
   margin-top: ${ props => props.theme.spacing(2) };
   font-family: Arial, sans-serif;
   font-size: small;
+
+  & > td {
+    vertical-align: top;
+  }
 
 `;
 
@@ -66,11 +69,6 @@ export const RenderedPlanPeople = ({ editable, onUpdate, people }: Props) => {
     <PeopleTable>
       <colgroup>
         <col style={{ width: '5em' }} />
-        <col style={{ width: 'calc(33% - 5em)' }} />
-        <col style={{ width: '16.67%' }} />
-        <col style={{ width: '16.67%' }} />
-        <col style={{ width: '16.67%' }} />
-        <col style={{ width: '16.67%' }} />
       </colgroup>
       <tbody>
         {

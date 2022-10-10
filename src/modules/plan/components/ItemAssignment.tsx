@@ -9,6 +9,7 @@ import { initialify } from "../functions";
 const Inner = styled(Typography)({
   fontWeight: 'normal',
   fontStyle: 'italic',
+  fontSize: 'small',
   padding: 4,
   cursor: 'pointer',
   minHeight: '1em',

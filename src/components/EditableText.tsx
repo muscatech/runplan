@@ -92,6 +92,7 @@ export const Editable = <Type,>({ edit, formatValue=(v) => String(v), locked, on
         sx={{
           ...sx,
           cursor: locked ? 'normal' : 'pointer',
+          fontSize: !!variant ? undefined : 'inherit',
           fontWeight: 'inherit',
           minHeight: '1em',
           width: '100%'
