@@ -7,10 +7,10 @@ import { allItemTypes } from "../../itemTypes/selectors";
 import { useDroppableRow } from "../functions";
 import type { Item } from "../interfaces";
 import { RenderedPlanItem } from "./RenderedPlanItem";
+import { usePlan } from "../context";
 
 interface Props {
   editable?: boolean,
-  items: Item[],
   onAddItem?: (idx: number, itemType: ItemType) => void,
   onMoveItem?: (itemID: string, newIdx: number) => void,
   onUpdate?: (idx: number, item: Item) => void
@@ -70,7 +70,9 @@ const DummyRow = ({ index, onAddItem, onMoveItem }: DummyRowProps) => {
   );
 };
 
-export const RenderedPlanItems = ({ editable, items, onAddItem, onMoveItem, onUpdate }: Props) => {
+export const RenderedPlanItems = ({ editable, onAddItem, onMoveItem, onUpdate }: Props) => {
+
+  const plan = usePlan();
 
   const itemTypes = allItemTypes();
 
@@ -102,7 +104,7 @@ export const RenderedPlanItems = ({ editable, items, onAddItem, onMoveItem, onUp
       </colgroup>
       <tbody>
         {
-          items.map(
+          (plan?.items || []).map(
             (item, idx) => (
               <RenderedPlanItem
                 editable={editable}
@@ -120,7 +122,7 @@ export const RenderedPlanItems = ({ editable, items, onAddItem, onMoveItem, onUp
         {
           editable && onAddItem && onMoveItem && (
             <DummyRow
-              index={items.length}
+              index={plan?.items?.length || 0}
               onAddItem={onAddItem}
               onMoveItem={onMoveItem}
             />

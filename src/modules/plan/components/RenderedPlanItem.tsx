@@ -7,6 +7,7 @@ import { EditableText } from "../../../components/EditableText";
 import { ItemType } from "../../itemTypes/interfaces";
 import type { Item } from "../interfaces";
 import { useDroppableRow } from "../functions";
+import { ItemAssignment } from "./ItemAssignment";
 
 const ITEM_CELL_PADDING = 0.5;
 
@@ -49,7 +50,7 @@ export const RenderedPlanItem = ({ editable, index, item, onInsert, onMove, onUp
   drag(drop(ref));
 
   const updateItem = useCallback(
-    (newAttrs: object={}) => {
+    (newAttrs: Partial<Item>={}) => {
       onUpdate(index, { ...item, ...newAttrs });
     },
     [index, item]
@@ -65,7 +66,12 @@ export const RenderedPlanItem = ({ editable, index, item, onInsert, onMove, onUp
         opacity: isDragging ? 0.1 : 1
       }}
     >
-      <td style={typeStyle}></td>
+      <td style={typeStyle}>
+        <ItemAssignment
+          item={item}
+          onUpdate={updateItem}
+        />
+      </td>
       {
         !type.isSectionHeading && (
           <td style={typeStyle}>

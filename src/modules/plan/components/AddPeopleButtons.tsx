@@ -8,33 +8,7 @@ import { NEW_ROLE_DIALOG } from "../../roles";
 import type { Role } from '../../roles';
 import { allRolesSelector } from "../../roles/selectors";
 import { CreatePersonDialog } from "./CreatePersonDialog";
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      aria-labelledby={`simple-tab-${index}`}
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      role="tabpanel"
-      style={{ minHeight: 0, flexGrow: 1, overflowY: 'auto' }}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 1 }}>
-          { children }
-        </Box>
-      )}
-    </div>
-  );
-}
+import { TabPanel } from "../../../components/TabPanel";
 
 function a11yProps(index: number) {
   return {

@@ -28,7 +28,8 @@ export interface Item {
   type: string,
   name: string,
   isNew?: boolean,
-  remark?: string
+  remark?: string,
+  assignedPeople?: string[]
 }
 
 export interface DragItem {
