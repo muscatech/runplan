@@ -1,19 +1,19 @@
 import styled from "styled-components";
 
 const COLOR_OPTIONS = [
-  "#f44336",
-  "#e91e63",
-  "#2196f3",
-  "#03a9f4",
-  "#00bcd4",
-  "#4caf50",
-  "#8bc34a",
-  "#cddc39",
-  "#ffeb3b",
-  "#ffc107",
-  "#ff9800",
-  "#ff5722",
-  "#CFCFCF",
+  "#f0d0d1",
+  "#f0d0ef",
+  "#dcd0f0",
+  "#d0eff0",
+  "#cbf0df",
+  "#d0f0d6",
+  "#dbf0ce",
+  "#eff0cd",
+  "#fffac8",
+  "#f0e4c8",
+  "#f0D9C9",
+  "#F0C8C8",
+  "#F0F0F0",
   "#ffffff"
 ];
 
