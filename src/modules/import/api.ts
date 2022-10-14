@@ -1,12 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { RootState } from '../../store';
-import type { ServiceType } from './types';
+import type { Plan, ServiceType } from './types';
 
 interface RestResponseData<T> {
   type: string,
   id: number,
   attributes: T
 }
+
+const transformRestResponse = <T>(response: { data: RestResponseData<T>[] }) => response.data.map( st => ({ ...st.attributes, id: st.id }));
 
 export const PlanningCenterAPI = createApi({
   reducerPath: 'planningCenter',
@@ -21,9 +23,16 @@ export const PlanningCenterAPI = createApi({
   endpoints: (builder) => ({
     getServiceTypes: builder.query<ServiceType[], void>({
       query: () => ({ url: 'service_types/' }),
-      transformResponse: (response: { data: RestResponseData<ServiceType>[] }, meta, arg) => response.data.map( st => ({ ...st.attributes, id: st.id }))
+      transformResponse: transformRestResponse<ServiceType>
+    }),
+    getPlansOfType: builder.query<Plan[], string>({
+      query: (serviceTypeID) => ({ url: `service_types/${serviceTypeID}/plans?filter=future` }),
+      transformResponse: transformRestResponse<Plan>
     })
   })
 });
 
-export const { useGetServiceTypesQuery } = PlanningCenterAPI;
+export const {
+  useGetServiceTypesQuery,
+  useGetPlansOfTypeQuery
+} = PlanningCenterAPI;

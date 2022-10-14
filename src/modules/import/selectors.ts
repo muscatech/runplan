@@ -5,3 +5,5 @@ import { AuthToken } from "./types";
 export const useCurrentStepSelector = () => useSelector((state: RootState) => state.import.currentStep);
 
 export const useAuthTokenSelector = () : AuthToken | null => useSelector((state: RootState) => state.import.auth);
+
+export const useSelectedServiceTypeSelector = () => useSelector((state: RootState) => state.import.selectedServiceType);

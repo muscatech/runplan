@@ -1,7 +1,8 @@
 export enum ImportStep {
   NOT_STARTED = 0,
   BEGIN = 1,
-  AUTH_TOKEN_OBTAINED = 2
+  AUTH_TOKEN_OBTAINED = 2,
+  SERVICE_TYPE_SELECTED = 3
 }
 
 export interface AuthToken {
@@ -15,10 +16,17 @@ export interface AuthToken {
 
 export interface ImportState {
   auth: AuthToken | null,
-  currentStep: ImportStep
+  currentStep: ImportStep,
+  selectedServiceType: number | null
 }
 
 export interface ServiceType {
   id: number,
   name: string
+}
+
+export interface Plan {
+  id: number,
+  items_count: number,
+  dates: string
 }

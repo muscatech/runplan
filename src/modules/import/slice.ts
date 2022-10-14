@@ -5,6 +5,7 @@ import { ImportStep } from './types';
 const initialState: ImportState = {
   auth: null,
   currentStep: ImportStep.NOT_STARTED,
+  selectedServiceType: null
 };
 
 const importSlice = createSlice({
@@ -16,10 +17,14 @@ const importSlice = createSlice({
     },
     setToken: (state: ImportState, action: PayloadAction<AuthToken>) => {
       state.auth = action.payload;
+    },
+    selectServiceType: (state: ImportState, action: PayloadAction<number>) => {
+      state.selectedServiceType = action.payload;
+      state.currentStep = ImportStep.SERVICE_TYPE_SELECTED;
     }
   }
 });
 
 export default importSlice.reducer;
 
-export const { setCurrentStep, setToken } = importSlice.actions;
+export const { selectServiceType, setCurrentStep, setToken } = importSlice.actions;
