@@ -5,13 +5,17 @@ import { ImportStep } from './types';
 const initialState: ImportState = {
   auth: null,
   currentStep: ImportStep.NOT_STARTED,
-  selectedServiceType: null
+  selectedServiceType: null,
+  selectedPlanID: null,
 };
 
 const importSlice = createSlice({
   name: 'import',
   initialState,
   reducers: {
+    reset: () => {
+      return initialState;
+    },
     setCurrentStep: (state: ImportState, action: PayloadAction<ImportStep>) => {
       state.currentStep = action.payload;
     },
@@ -27,4 +31,4 @@ const importSlice = createSlice({
 
 export default importSlice.reducer;
 
-export const { selectServiceType, setCurrentStep, setToken } = importSlice.actions;
+export const { reset, selectServiceType, setCurrentStep, setToken } = importSlice.actions;

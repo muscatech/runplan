@@ -17,7 +17,8 @@ export interface AuthToken {
 export interface ImportState {
   auth: AuthToken | null,
   currentStep: ImportStep,
-  selectedServiceType: number | null
+  selectedServiceType: number | null,
+  selectedPlanID: number | null,
 }
 
 export interface ServiceType {
