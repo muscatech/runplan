@@ -1,12 +1,16 @@
-import { DialogContent, DialogTitle } from "@mui/material";
-import { useState } from "react";
+import { Button, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { RenderedPlan } from "../../plan";
+import { choosePlan, importPlan } from "../../plan/slice";
 import { useGetPlanItemsQuery, useGetPlanQuery } from "../api";
 import { usePlanMapper } from "../functions";
 import { useSelectedPlanIDSelector, useSelectedServiceTypeSelector } from "../selectors";
-import { ItemTypeMapping } from "../types";
+import { actions as dialogActions } from '../../dialogs';
+import { ImportStep, ItemTypeMapping } from "../types";
 import { MappingControl } from "./MappingControl";
+import { setCurrentStep } from "../slice";
 
 const Inner = styled.div`
 
@@ -19,6 +23,8 @@ const Pane = styled.div`
 `;
 
 export const FinaliseImport = () => {
+
+  const dispatch = useDispatch();
 
   const serviceTypeID = useSelectedServiceTypeSelector();
   const planID = useSelectedPlanIDSelector();
@@ -34,6 +40,18 @@ export const FinaliseImport = () => {
   const [ mapping, setMapping ] = useState<ItemTypeMapping>({} as ItemTypeMapping);
 
   const mappedPlan = usePlanMapper(mapping, plan, items);
+
+  const doImport = useCallback(
+    () => {
+      if (mappedPlan) {
+        dispatch(importPlan(mappedPlan));
+        dispatch(choosePlan(mappedPlan.id));
+        dispatch(dialogActions.hide());
+        dispatch(setCurrentStep(ImportStep.NOT_STARTED));
+      }
+    },
+    [mappedPlan]
+  );
 
   const isLoading = itemsLoading || planLoading;
   if (isLoading || !mappedPlan) {
@@ -62,6 +80,15 @@ export const FinaliseImport = () => {
           </Pane>
         </Inner>
       </DialogContent>
+      <DialogActions>
+        <Button
+          disabled={!mappedPlan}
+          onClick={doImport}
+          variant='contained'
+        >
+          Import
+        </Button>
+      </DialogActions>
     </>
   );
 };
