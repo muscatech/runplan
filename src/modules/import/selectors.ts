@@ -9,3 +9,5 @@ export const useAuthTokenSelector = () : AuthToken | null => useSelector((state:
 export const refreshTokenSelector = (state: RootState) => state.import.auth.refresh_token;
 
 export const useSelectedServiceTypeSelector = () => useSelector((state: RootState) => state.import.selectedServiceType);
+
+export const useSelectedPlanIDSelector = () => useSelector((state: RootState) => state.import.selectedPlanID);

@@ -5,7 +5,7 @@ import type {
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query';
 import type { RootState } from '../../store';
-import type { Plan, ServiceType } from './types';
+import type { Item, Plan, PlanQueryParams, ServiceType } from './types';
 import { refreshTokenSelector } from './selectors';
 import { refreshPCOToken } from './auth';
 import { reset, setToken } from './slice';
@@ -17,6 +17,7 @@ interface RestResponseData<T> {
 }
 
 const transformRestResponse = <T>(response: { data: RestResponseData<T>[] }) => response.data.map( st => ({ ...st.attributes, id: st.id }));
+const transformSingleRestResponse = <T>(response: { data: RestResponseData<T> }) => ({ ...response.data.attributes, id: response.data.id });
 
 
 const baseQuery = fetchBaseQuery({
@@ -63,11 +64,21 @@ export const PlanningCenterAPI = createApi({
     getPlansOfType: builder.query<Plan[], string>({
       query: (serviceTypeID) => ({ url: `service_types/${serviceTypeID}/plans?filter=future` }),
       transformResponse: transformRestResponse<Plan>
+    }),
+    getPlan: builder.query<Plan, PlanQueryParams>({
+      query: ({ serviceTypeID, planID }) => ({ url: `service_types/${serviceTypeID}/plans/${planID}` }),
+      transformResponse: transformSingleRestResponse<Plan>
+    }),
+    getPlanItems: builder.query<Item[], PlanQueryParams>({
+      query: ({ serviceTypeID, planID }) => ({ url: `service_types/${serviceTypeID}/plans/${planID}/items` }),
+      transformResponse: transformRestResponse<Item>
     })
   })
 });
 
 export const {
   useGetServiceTypesQuery,
-  useGetPlansOfTypeQuery
+  useGetPlansOfTypeQuery,
+  useGetPlanQuery,
+  useGetPlanItemsQuery
 } = PlanningCenterAPI;

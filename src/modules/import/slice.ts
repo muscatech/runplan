@@ -25,10 +25,14 @@ const importSlice = createSlice({
     selectServiceType: (state: ImportState, action: PayloadAction<number>) => {
       state.selectedServiceType = action.payload;
       state.currentStep = ImportStep.SERVICE_TYPE_SELECTED;
+    },
+    selectPlan: (state: ImportState, action: PayloadAction<number>) => {
+      state.selectedPlanID = action.payload;
+      state.currentStep = ImportStep.PLAN_SELECTED;
     }
   }
 });
 
 export default importSlice.reducer;
 
-export const { reset, selectServiceType, setCurrentStep, setToken } = importSlice.actions;
+export const { reset, selectPlan, selectServiceType, setCurrentStep, setToken } = importSlice.actions;

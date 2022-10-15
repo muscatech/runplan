@@ -10,6 +10,7 @@ import { RenderedPlanItem } from "./RenderedPlanItem";
 import { usePlan } from "../context";
 
 interface Props {
+  additionalTypes?: ItemType[],
   editable?: boolean,
   onAddItem?: (idx: number, itemType: ItemType) => void,
   onMoveItem?: (itemID: string, newIdx: number) => void,
@@ -70,11 +71,16 @@ const DummyRow = ({ index, onAddItem, onMoveItem }: DummyRowProps) => {
   );
 };
 
-export const RenderedPlanItems = ({ editable, onAddItem, onMoveItem, onUpdate }: Props) => {
+export const RenderedPlanItems = ({ additionalTypes = [], editable, onAddItem, onMoveItem, onUpdate }: Props) => {
 
   const plan = usePlan();
 
-  const itemTypes = allItemTypes();
+  const itemTypes = { ...allItemTypes() };
+  additionalTypes.forEach(
+    t => {
+      itemTypes[t.id] = t;
+    }
+  );
 
   const addItem = (idx: number, itemType: ItemType) => {
     if (onAddItem) {

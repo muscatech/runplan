@@ -2,7 +2,8 @@ export enum ImportStep {
   NOT_STARTED = 0,
   BEGIN = 1,
   AUTH_TOKEN_OBTAINED = 2,
-  SERVICE_TYPE_SELECTED = 3
+  SERVICE_TYPE_SELECTED = 3,
+  PLAN_SELECTED = 4,
 }
 
 export interface AuthToken {
@@ -29,5 +30,27 @@ export interface ServiceType {
 export interface Plan {
   id: number,
   items_count: number,
-  dates: string
+  dates: string,
+  sort_date: string,
+  title: string
+}
+
+export interface PlanQueryParams {
+  serviceTypeID: number,
+  planID: number
+}
+
+export enum ItemType {
+  Item = 'item',
+  Song = 'song',
+  Header = 'header',
+  Media = 'media'
+}
+
+export interface Item {
+  id: number,
+  title: string,
+  description: string | null,
+  key_name: string | null,
+  item_type: ItemType
 }

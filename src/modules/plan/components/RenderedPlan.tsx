@@ -12,11 +12,12 @@ import { RenderedPlanPeople } from "./RenderedPlanPeople";
 import { PlanContextProvider } from "../context";
 
 interface Props {
+  additionalTypes?: ItemType[],
   editable?: boolean,
   plan: Plan
 }
 
-export const RenderedPlan = ({ editable, plan }: Props): JSX.Element => {
+export const RenderedPlan = ({ additionalTypes, editable, plan }: Props): JSX.Element => {
 
   const dispatch = useDispatch();
   const commitUpdate = (plan: Plan) => dispatch(updatePlan(plan));
@@ -53,6 +54,7 @@ export const RenderedPlan = ({ editable, plan }: Props): JSX.Element => {
           people={plan.people}
         />
         <RenderedPlanItems
+          additionalTypes={additionalTypes}
           editable={editable}
           onAddItem={(idx: number, itemType: ItemType) => {
             dispatch(addItem({ planID: plan.id, type: itemType, index: idx }));

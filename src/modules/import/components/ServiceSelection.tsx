@@ -1,12 +1,23 @@
+import { useCallback } from "react";
 import { DialogContent, DialogTitle, List, ListItemButton, ListItemText, Typography } from "@mui/material";
+import { useDispatch } from "react-redux";
 import { useGetPlansOfTypeQuery } from "../api";
 import { useSelectedServiceTypeSelector } from "../selectors";
+import { selectPlan } from "../slice";
 
 export const ServiceSelection = (): JSX.Element => {
 
   const serviceTypeID = useSelectedServiceTypeSelector();
 
   const { data, isLoading } = useGetPlansOfTypeQuery(serviceTypeID);
+  const dispatch = useDispatch();
+
+  const handleSelect = useCallback(
+    (planID: number) => () => {
+      dispatch(selectPlan(planID));
+    },
+    []
+  );
 
   return (
     <>
@@ -21,6 +32,7 @@ export const ServiceSelection = (): JSX.Element => {
               plan => (
                 <ListItemButton
                   key={plan.id}
+                  onClick={handleSelect(plan.id)}
                 >
                   <ListItemText
                     primary={plan.dates}
