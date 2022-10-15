@@ -1,11 +1,32 @@
 import { Item as RunplanItem, Plan as RunplanPlan } from "../plan/interfaces";
 import { ItemType as RunplanItemType } from '../itemTypes';
 import { Item, ItemType, Plan } from "./types";
+import { useEffect, useState } from "react";
 
 export const getCodeFromQueryString = () => {
   const qs = window.location.search;
   const params = new URLSearchParams(qs);
   return params.get('code');
+};
+
+export const usePlanMapper = (plan: Plan | undefined, items: Item[] | undefined) => {
+  const [mappedPlan, setMappedPlan] = useState<RunplanPlan>();
+
+  useEffect(
+    () => {
+      if (items && plan) {
+        setMappedPlan(
+          mapPlan(
+            plan,
+            items
+          )
+        );
+      }
+    },
+    [items, plan]
+  );
+
+  return mappedPlan;
 };
 
 export const mapPlan = (plan: Plan, items: Item[] = []): RunplanPlan => ({

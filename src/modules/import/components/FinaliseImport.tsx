@@ -1,13 +1,9 @@
-import { useEffect, useState } from "react";
 import { RenderedPlan } from "../../plan";
-import { Plan } from "../../plan/interfaces";
 import { useGetPlanItemsQuery, useGetPlanQuery } from "../api";
-import { mapPlan } from "../functions";
+import { usePlanMapper } from "../functions";
 import { useSelectedPlanIDSelector, useSelectedServiceTypeSelector } from "../selectors";
 
 export const FinaliseImport = () => {
-
-  const [mappedPlan, setMappedPlan] = useState<Plan>();
 
   const serviceTypeID = useSelectedServiceTypeSelector();
   const planID = useSelectedPlanIDSelector();
@@ -22,19 +18,7 @@ export const FinaliseImport = () => {
 
   const isLoading = itemsLoading || planLoading;
 
-  useEffect(
-    () => {
-      if (items && plan && !isLoading) {
-        setMappedPlan(
-          mapPlan(
-            plan,
-            items
-          )
-        );
-      }
-    },
-    [items, plan]
-  );
+  const mappedPlan = usePlanMapper(plan, items);
 
   if (isLoading || !mappedPlan) {
     return (<p>Loading, please wait...</p>);
