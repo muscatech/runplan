@@ -54,3 +54,5 @@ export interface Item {
   key_name: string | null,
   item_type: ItemType
 }
+
+export type ItemTypeMapping = Record<ItemType, string>;

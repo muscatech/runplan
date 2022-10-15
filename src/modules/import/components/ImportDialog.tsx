@@ -22,8 +22,10 @@ export const ImportDialog = () => {
   return (
     <Dialog
       fullWidth
+      maxWidth='xl'
       onClose={close}
       open={isOpen}
+      scroll='paper'
     >
       <ImportForm />
     </Dialog>
