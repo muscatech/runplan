@@ -32,7 +32,7 @@ export const usePlanMapper = (
         );
       }
     },
-    [itemMapping, items, plan, people]
+    [itemMapping, items, plan, people, teamMapping]
   );
 
   return mappedPlan;
