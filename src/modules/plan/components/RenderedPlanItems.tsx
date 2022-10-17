@@ -25,6 +25,7 @@ const ItemsTable = styled.table`
   margin-top: ${ props => props.theme.spacing(2) };
 
   font-family: Arial, sans-serif;
+  font-size: 11pt;
 
   & td {
     border: 1px solid black;

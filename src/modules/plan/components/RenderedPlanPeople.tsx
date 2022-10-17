@@ -10,7 +10,7 @@ const PeopleTable = styled.table`
 
   margin-top: ${ props => props.theme.spacing(2) };
   font-family: Arial, sans-serif;
-  font-size: small;
+  font-size: 10pt;
 
   & > td {
     vertical-align: top;
@@ -68,7 +68,8 @@ export const RenderedPlanPeople = ({ editable, onUpdate, people }: Props) => {
   return (
     <PeopleTable>
       <colgroup>
-        <col style={{ width: '5em' }} />
+        <col style={{ width: '5em', minWidth: '5em' }} />
+        <col style={{ minWidth: '5em' }} />
       </colgroup>
       <tbody>
         {

@@ -13,6 +13,7 @@ const Inner = styled(Typography)({
   padding: 4,
   cursor: 'pointer',
   minHeight: '1em',
+  lineHeight: 1.5,
   width: '100%'
 });
 

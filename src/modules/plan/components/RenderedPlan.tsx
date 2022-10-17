@@ -30,7 +30,8 @@ export const RenderedPlan = ({ additionalTypes, editable, plan }: Props): JSX.El
           padding: [2, 8],
           '@media print': {
             boxShadow: 0
-          }
+          },
+          width: '210mm'
         }}
       >
         <EditableText
