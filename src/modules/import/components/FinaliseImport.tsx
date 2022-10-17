@@ -2,13 +2,15 @@ import { Button, DialogActions, DialogContent, DialogTitle } from "@mui/material
 import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { RenderedPlan } from "../../plan";
+
 import { choosePlan, importPlan } from "../../plan/slice";
 import { useGetPlanItemsQuery, useGetPlanPeopleQuery, useGetPlanQuery, useGetServiceTypeTeamsQuery } from "../api";
 import { usePlanMapper } from "../functions";
 import { useSelectedPlanIDSelector, useSelectedServiceTypeSelector } from "../selectors";
 import { actions as dialogActions } from '../../dialogs';
 import { ImportStep, ItemTypeMapping, TeamCategoryMapping } from "../types";
+
+import { RenderedPlan } from "../../plan";
 import { MappingControl } from "./MappingControl";
 import { setCurrentStep } from "../slice";
 import { TeamMappingControl } from "./TeamMappingControl";
@@ -42,8 +44,9 @@ export const FinaliseImport = () => {
 
   const [ itemMapping, setItemMapping ] = useState<ItemTypeMapping>({} as ItemTypeMapping);
   const [ teamMapping, setTeamMapping ] = useState<TeamCategoryMapping>({} as TeamCategoryMapping);
+  const [ timeFilter, setTimeFilter ] = useState<number[]>([]);
 
-  const mappedPlan = usePlanMapper(plan, itemMapping, items, teamMapping, people);
+  const mappedPlan = usePlanMapper({ plan, itemMapping, items, teamMapping, people, timeFilter });
 
   const doImport = useCallback(
     () => {

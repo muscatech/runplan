@@ -5,7 +5,7 @@ import type {
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query';
 import type { RootState } from '../../store';
-import type { Item, Plan, PlanPerson, PlanQueryParams, ServiceType, Team } from './types';
+import type { Item, Plan, PlanPerson, PlanQueryParams, PlanTime, ServiceType, Team } from './types';
 import { refreshTokenSelector } from './selectors';
 import { refreshPCOToken } from './auth';
 import { reset, setToken } from './slice';
@@ -16,16 +16,26 @@ interface OneToOneRelationship {
   }
 }
 
+interface Relationship {
+  id: number,
+  type: string
+}
+
+interface OneToManyRelationship {
+  data: Relationship[]
+}
+
 interface RestResponseData<T> {
   type: string,
   id: number,
   attributes: T,
-  relationships?: Record<string, OneToOneRelationship>
+  relationships?: Record<string, OneToOneRelationship | OneToManyRelationship>
 }
 
 const transformRestResponse = <T>(response: { data: RestResponseData<T>[] }) => response.data.map( st => ({ ...st.attributes, id: st.id }));
-const transformSingleRestResponse = <T>(response: { data: RestResponseData<T> }) => ({ ...response.data.attributes, id: response.data.id });
 
+const isOneToOneRelationship = (t: unknown) : t is OneToOneRelationship => !!(t as OneToOneRelationship).data.id;
+const isOneToManyRelationship = (t: unknown): t is OneToManyRelationship => Array.isArray((t as OneToManyRelationship).data);
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'https://api.planningcenteronline.com/services/v2/',
@@ -77,8 +87,22 @@ export const PlanningCenterAPI = createApi({
       transformResponse: transformRestResponse<Plan>
     }),
     getPlan: builder.query<Plan, PlanQueryParams>({
-      query: ({ serviceTypeID, planID }) => ({ url: `service_types/${serviceTypeID}/plans/${planID}` }),
-      transformResponse: transformSingleRestResponse<Plan>
+      query: ({ serviceTypeID, planID }) => ({ url: `service_types/${serviceTypeID}/plans/${planID}`, params: { include: 'plan_times' } }),
+      transformResponse: ( response: { data: RestResponseData<Plan>, included: RestResponseData<PlanTime>[] } ) => {
+
+        return ({
+          ...response.data.attributes,
+          id: response.data.id,
+          plan_times: isOneToManyRelationship(response.data.relationships?.plan_times) ? response.data.relationships?.plan_times.data.map(
+            rel => {
+              const includedTime = response.included.find(d => d.id === rel.id);
+              return {
+                ...includedTime?.attributes
+              };
+            }
+          ) : []
+        });
+      }
     }),
     getPlanItems: builder.query<Item[], PlanQueryParams>({
       query: ({ serviceTypeID, planID }) => ({ url: `service_types/${serviceTypeID}/plans/${planID}/items` }),
@@ -94,7 +118,8 @@ export const PlanningCenterAPI = createApi({
           pp => ({
             ...pp.attributes,
             id: pp.id,
-            team: pp.relationships?.team ? teamMap[pp.relationships.team.data.id] : undefined
+            team: pp.relationships?.team && isOneToOneRelationship(pp.relationships.team) ? teamMap[pp.relationships.team.data.id] : undefined,
+            times: pp.relationships?.times && isOneToManyRelationship(pp.relationships?.times) ? pp.relationships.times.data.map(t => t.id) : []
           })
         );
       }

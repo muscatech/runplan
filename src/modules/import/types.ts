@@ -37,6 +37,19 @@ export interface Plan {
   title: string
 }
 
+export enum TimeType {
+  Rehearsal = 'rehearsal',
+  Service = 'service',
+  Other = 'other'
+}
+
+export interface PlanTime {
+  id: number,
+  time_type: string,
+  starts_at: string,
+  name: string
+}
+
 export interface PlanQueryParams {
   serviceTypeID: number,
   planID: number
@@ -72,7 +85,8 @@ export interface PlanPerson {
   team?: {
     id: number,
     name: string
-  }
+  },
+  times: number[]
 }
 
 export type ItemTypeMapping = Record<ItemType, string>;
