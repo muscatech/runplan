@@ -73,6 +73,10 @@ export const mapPerson = (mapping: TeamCategoryMapping) => (planPerson: PlanPers
     return null;
   }
 
+  if (planPerson.status !== 'C') {
+    return null;
+  }
+
   return {
     id: String(planPerson.id),
     name: planPerson.name,

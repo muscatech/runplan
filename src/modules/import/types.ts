@@ -62,9 +62,12 @@ export interface Team {
   name: string
 }
 
+type PlanPersonStatus = 'C' | 'U' | 'D';
+
 export interface PlanPerson {
   id: number,
   name: string,
+  status: PlanPersonStatus,
   team_position_name: string,
   team?: {
     id: number,
