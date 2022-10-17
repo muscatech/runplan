@@ -1,3 +1,5 @@
+import { RoleCategory } from "../roles";
+
 export enum ImportStep {
   NOT_STARTED = 0,
   BEGIN = 1,
@@ -55,4 +57,21 @@ export interface Item {
   item_type: ItemType
 }
 
+export interface Team {
+  id: number,
+  name: string
+}
+
+export interface PlanPerson {
+  id: number,
+  name: string,
+  team_position_name: string,
+  team?: {
+    id: number,
+    name: string
+  }
+}
+
 export type ItemTypeMapping = Record<ItemType, string>;
+
+export type TeamCategoryMapping = Record<string, RoleCategory>;

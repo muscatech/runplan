@@ -4,13 +4,14 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { RenderedPlan } from "../../plan";
 import { choosePlan, importPlan } from "../../plan/slice";
-import { useGetPlanItemsQuery, useGetPlanQuery } from "../api";
+import { useGetPlanItemsQuery, useGetPlanPeopleQuery, useGetPlanQuery, useGetServiceTypeTeamsQuery } from "../api";
 import { usePlanMapper } from "../functions";
 import { useSelectedPlanIDSelector, useSelectedServiceTypeSelector } from "../selectors";
 import { actions as dialogActions } from '../../dialogs';
-import { ImportStep, ItemTypeMapping } from "../types";
+import { ImportStep, ItemTypeMapping, TeamCategoryMapping } from "../types";
 import { MappingControl } from "./MappingControl";
 import { setCurrentStep } from "../slice";
+import { TeamMappingControl } from "./TeamMappingControl";
 
 const Inner = styled.div`
 
@@ -36,10 +37,13 @@ export const FinaliseImport = () => {
 
   const { data: plan, isLoading: planLoading } = useGetPlanQuery(queryParams);
   const { data: items, isLoading: itemsLoading } = useGetPlanItemsQuery(queryParams);
+  const { data: people, isLoading: peopleLoading } = useGetPlanPeopleQuery(queryParams);
+  const { data: teams, isLoading: teamsLoading } = useGetServiceTypeTeamsQuery(serviceTypeID);
 
-  const [ mapping, setMapping ] = useState<ItemTypeMapping>({} as ItemTypeMapping);
+  const [ itemMapping, setItemMapping ] = useState<ItemTypeMapping>({} as ItemTypeMapping);
+  const [ teamMapping, setTeamMapping ] = useState<TeamCategoryMapping>({} as TeamCategoryMapping);
 
-  const mappedPlan = usePlanMapper(mapping, plan, items);
+  const mappedPlan = usePlanMapper(plan, itemMapping, items, teamMapping, people);
 
   const doImport = useCallback(
     () => {
@@ -53,7 +57,7 @@ export const FinaliseImport = () => {
     [mappedPlan]
   );
 
-  const isLoading = itemsLoading || planLoading;
+  const isLoading = itemsLoading || planLoading || peopleLoading || teamsLoading;
   if (isLoading || !mappedPlan) {
     return (<p>Loading, please wait...</p>);
   }
@@ -65,8 +69,13 @@ export const FinaliseImport = () => {
         <Inner>
           <Pane>
             <MappingControl
-              mapping={mapping}
-              setMapping={setMapping}
+              mapping={itemMapping}
+              setMapping={setItemMapping}
+            />
+            <TeamMappingControl
+              mapping={teamMapping}
+              setMapping={setTeamMapping}
+              teams={teams}
             />
           </Pane>
           <Pane>

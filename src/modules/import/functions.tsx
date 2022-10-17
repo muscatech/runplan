@@ -1,6 +1,7 @@
-import { Item as RunplanItem, Plan as RunplanPlan } from "../plan/interfaces";
-import { Item, ItemTypeMapping, Plan } from "./types";
+import { Item as RunplanItem, Person as RunplanPerson, Plan as RunplanPlan } from "../plan/interfaces";
+import { Item, ItemTypeMapping, Plan, PlanPerson, TeamCategoryMapping } from "./types";
 import { useEffect, useState } from "react";
+import { RoleCategory } from "../roles";
 
 export const getCodeFromQueryString = () => {
   const qs = window.location.search;
@@ -8,7 +9,13 @@ export const getCodeFromQueryString = () => {
   return params.get('code');
 };
 
-export const usePlanMapper = (mapping: ItemTypeMapping, plan: Plan | undefined, items: Item[] | undefined) => {
+export const usePlanMapper = (
+  plan: Plan | undefined,
+  itemMapping: ItemTypeMapping,
+  items: Item[] | undefined,
+  teamMapping: TeamCategoryMapping,
+  people: PlanPerson[] | undefined
+) => {
   const [mappedPlan, setMappedPlan] = useState<RunplanPlan>();
 
   useEffect(
@@ -16,25 +23,33 @@ export const usePlanMapper = (mapping: ItemTypeMapping, plan: Plan | undefined, 
       if (items && plan) {
         setMappedPlan(
           mapPlan(
-            mapping,
             plan,
-            items
+            itemMapping,
+            items,
+            teamMapping,
+            people
           )
         );
       }
     },
-    [mapping, items, plan]
+    [itemMapping, items, plan, people]
   );
 
   return mappedPlan;
 };
 
-export const mapPlan = (mapping: ItemTypeMapping, plan: Plan, items: Item[] = []): RunplanPlan => ({
+export const mapPlan = (
+  plan: Plan,
+  itemMapping: ItemTypeMapping,
+  items: Item[] = [],
+  teamMapping: TeamCategoryMapping,
+  people: PlanPerson[] = []
+): RunplanPlan => ({
   id: `PCO-${plan.id}`,
   name: plan.title || 'Imported plan',
   date: Date.parse(plan.sort_date) / 1000,
-  items: items.map(mapItem(mapping)).filter((i): i is RunplanItem => !!i),
-  people: [],
+  items: items.map(mapItem(itemMapping)).filter((i): i is RunplanItem => !!i),
+  people: people.map(mapPerson(teamMapping)).filter((i): i is RunplanPerson => !!i),
   meta: {
     lastModified: Date.now()
   }
@@ -49,5 +64,21 @@ export const mapItem = (mapping: ItemTypeMapping) => (item: Item): RunplanItem |
     name: item.key_name ? `${item.title} (${item.key_name})` : item.title,
     type: mapping[item.item_type] || `PCO-${item.item_type}`,
     remark: item.description || undefined
+  };
+};
+
+export const mapPerson = (mapping: TeamCategoryMapping) => (planPerson: PlanPerson): RunplanPerson | null => {
+
+  if (planPerson.team && !mapping[planPerson.team.id]) {
+    return null;
+  }
+
+  return {
+    id: String(planPerson.id),
+    name: planPerson.name,
+    role: {
+      name: planPerson.team_position_name,
+      category: planPerson.team ? mapping[planPerson.team.id] : RoleCategory.Talent
+    }
   };
 };

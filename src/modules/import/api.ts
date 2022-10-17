@@ -5,15 +5,22 @@ import type {
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query';
 import type { RootState } from '../../store';
-import type { Item, Plan, PlanQueryParams, ServiceType } from './types';
+import type { Item, Plan, PlanPerson, PlanQueryParams, ServiceType, Team } from './types';
 import { refreshTokenSelector } from './selectors';
 import { refreshPCOToken } from './auth';
 import { reset, setToken } from './slice';
 
+interface OneToOneRelationship {
+  data: {
+    id: number
+  }
+}
+
 interface RestResponseData<T> {
   type: string,
   id: number,
-  attributes: T
+  attributes: T,
+  relationships?: Record<string, OneToOneRelationship>
 }
 
 const transformRestResponse = <T>(response: { data: RestResponseData<T>[] }) => response.data.map( st => ({ ...st.attributes, id: st.id }));
@@ -61,6 +68,10 @@ export const PlanningCenterAPI = createApi({
       query: () => ({ url: 'service_types/' }),
       transformResponse: transformRestResponse<ServiceType>
     }),
+    getServiceTypeTeams: builder.query<Team[], string>({
+      query: (serviceTypeID) => ({ url: `service_types/${serviceTypeID}/teams` }),
+      transformResponse: transformRestResponse<Team>
+    }),
     getPlansOfType: builder.query<Plan[], string>({
       query: (serviceTypeID) => ({ url: `service_types/${serviceTypeID}/plans?filter=future` }),
       transformResponse: transformRestResponse<Plan>
@@ -72,13 +83,30 @@ export const PlanningCenterAPI = createApi({
     getPlanItems: builder.query<Item[], PlanQueryParams>({
       query: ({ serviceTypeID, planID }) => ({ url: `service_types/${serviceTypeID}/plans/${planID}/items` }),
       transformResponse: transformRestResponse<Item>
+    }),
+    getPlanPeople: builder.query<PlanPerson[], PlanQueryParams>({
+      query: ({ serviceTypeID, planID }) => ({ url: `service_types/${serviceTypeID}/plans/${planID}/team_members`, params: { include: 'team' } }),
+      transformResponse: (response: { data: RestResponseData<PlanPerson>[], included: RestResponseData<Team>[] }) => {
+        const teamMap: Record<number, Team> = Object.fromEntries(
+          response.included.map(t => ([t.id, { ...t.attributes, id: t.id }]))
+        );
+        return response.data.map(
+          pp => ({
+            ...pp.attributes,
+            id: pp.id,
+            team: pp.relationships?.team ? teamMap[pp.relationships.team.data.id] : undefined
+          })
+        );
+      }
     })
   })
 });
 
 export const {
   useGetServiceTypesQuery,
+  useGetServiceTypeTeamsQuery,
   useGetPlansOfTypeQuery,
   useGetPlanQuery,
-  useGetPlanItemsQuery
+  useGetPlanItemsQuery,
+  useGetPlanPeopleQuery
 } = PlanningCenterAPI;
