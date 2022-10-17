@@ -165,13 +165,13 @@ export const plansSlice = createSlice({
             if (newP.role.name !== p.role.name) {
               delete newP.role.id; // Remove link from role definition if we've changed its name
             }
-            return newP;
+            return newP.name === '' ? null : newP;
           }
           else {
             return p;
           }
         }
-      );
+      ).filter((i): i is Person => !!i);
     }
   }
 });
