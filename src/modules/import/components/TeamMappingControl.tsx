@@ -6,6 +6,7 @@ import type { Team, TeamCategoryMapping } from "../types";
 const Inner = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: ${props => props.theme.spacing(2)};
 `;
 
 interface MappingProps {
@@ -21,7 +22,10 @@ const Mapping = ({ label, runplanCategory, onChange }: MappingProps) => {
   };
 
   return (
-    <FormControl sx={{ m: 1 }}>
+    <FormControl
+      size='small'
+      sx={{ m: 1 }}
+    >
       <InputLabel>{label}</InputLabel>
       <Select
         fullWidth

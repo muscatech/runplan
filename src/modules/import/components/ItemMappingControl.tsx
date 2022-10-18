@@ -19,7 +19,10 @@ const Mapping = ({ label, runplanType, onChange }: MappingProps) => {
   };
 
   return (
-    <FormControl sx={{ m: 1 }}>
+    <FormControl
+      size='small'
+      sx={{ m: 1 }}
+    >
       <InputLabel>{label}</InputLabel>
       <Select
         fullWidth
@@ -54,6 +57,7 @@ const Mapping = ({ label, runplanType, onChange }: MappingProps) => {
 const Inner = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: ${props => props.theme.spacing(2)};
 `;
 
 interface Props {

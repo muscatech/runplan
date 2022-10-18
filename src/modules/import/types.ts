@@ -34,7 +34,8 @@ export interface Plan {
   items_count: number,
   dates: string,
   sort_date: string,
-  title: string
+  title: string,
+  plan_times: PlanTime[]
 }
 
 export enum TimeType {
@@ -47,6 +48,7 @@ export interface PlanTime {
   id: number,
   time_type: string,
   starts_at: string,
+  starts_at_time: number,
   name: string
 }
 

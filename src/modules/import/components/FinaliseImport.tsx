@@ -8,12 +8,13 @@ import { useGetPlanItemsQuery, useGetPlanPeopleQuery, useGetPlanQuery, useGetSer
 import { usePlanMapper } from "../functions";
 import { useSelectedPlanIDSelector, useSelectedServiceTypeSelector } from "../selectors";
 import { actions as dialogActions } from '../../dialogs';
-import { ImportStep, ItemTypeMapping, TeamCategoryMapping } from "../types";
+import { ImportStep, ItemTypeMapping, PlanTime, TeamCategoryMapping } from "../types";
 
 import { RenderedPlan } from "../../plan";
 import { ItemMappingControl } from "./ItemMappingControl";
 import { setCurrentStep } from "../slice";
 import { TeamMappingControl } from "./TeamMappingControl";
+import { TimeFilterControl } from "./TimeFilterControl";
 
 const Inner = styled.div`
 
@@ -79,6 +80,11 @@ export const FinaliseImport = () => {
               mapping={teamMapping}
               setMapping={setTeamMapping}
               teams={teams}
+            />
+            <TimeFilterControl
+              setTimeFilter={setTimeFilter}
+              timeFilter={timeFilter}
+              times={plan?.plan_times.filter((t: PlanTime) => t.time_type === 'service') || []}
             />
           </Pane>
           <Pane>

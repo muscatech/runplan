@@ -90,18 +90,33 @@ export const PlanningCenterAPI = createApi({
       query: ({ serviceTypeID, planID }) => ({ url: `service_types/${serviceTypeID}/plans/${planID}`, params: { include: 'plan_times' } }),
       transformResponse: ( response: { data: RestResponseData<Plan>, included: RestResponseData<PlanTime>[] } ) => {
 
-        return ({
+        const plan = ({
           ...response.data.attributes,
           id: response.data.id,
-          plan_times: isOneToManyRelationship(response.data.relationships?.plan_times) ? response.data.relationships?.plan_times.data.map(
-            rel => {
-              const includedTime = response.included.find(d => d.id === rel.id);
-              return {
-                ...includedTime?.attributes
-              };
-            }
-          ) : []
+          plan_times: [] as PlanTime[]
         });
+
+        if (response.data.relationships && isOneToManyRelationship(response.data.relationships?.plan_times)) {
+          response.data.relationships.plan_times.data.forEach(
+            inc => {
+              if (inc.type === 'PlanTime') {
+
+                const pt = response.included.find(i => i.id === inc.id && i.type === 'PlanTime');
+
+                if (pt) {
+                  plan.plan_times.push({
+                    ...pt.attributes,
+                    starts_at_time: Date.parse(pt.attributes.starts_at),
+                    id: pt.id
+                  });
+                }
+
+              }
+            }
+          );
+        }
+
+        return plan;
       }
     }),
     getPlanItems: builder.query<Item[], PlanQueryParams>({
