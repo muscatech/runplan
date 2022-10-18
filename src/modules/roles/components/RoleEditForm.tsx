@@ -13,7 +13,7 @@ export const RoleEditForm = ({ role, onChange }: Props) => {
       <TextField
         autoFocus
         fullWidth
-        label='Item type name'
+        label='Role name'
         margin="dense"
         onChange={e => onChange({ name: e.target.value })}
         required
@@ -49,7 +49,7 @@ export const RoleEditForm = ({ role, onChange }: Props) => {
       <FormControlLabel
         control={
           <Switch
-            checked={role.useInitialsNotRole}
+            checked={!!role.useInitialsNotRole}
             onChange={e => onChange({
               useInitialsNotRole: e.target.checked
             })}
@@ -57,6 +57,16 @@ export const RoleEditForm = ({ role, onChange }: Props) => {
         }
         label="Display person's initials not role name"
       />
+      <FormControl
+        sx={{ mt: 1 }}
+      >
+        <TextField
+          inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+          label='Sort order'
+          onChange={ e => onChange({ sortKey: parseInt(e.target.value, 10) }) }
+          value={role.sortKey}
+        />
+      </FormControl>
     </>
   );
 };

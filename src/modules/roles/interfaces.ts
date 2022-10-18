@@ -4,7 +4,8 @@ export interface Role {
   id: string,
   name: string,
   category: RoleCategory,
-  useInitialsNotRole?: boolean
+  useInitialsNotRole?: boolean,
+  sortKey?: number
 }
 
 export type NewRole = Omit<Role, 'id'>;
