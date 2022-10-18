@@ -27,6 +27,13 @@ const ItemsTable = styled.table`
   font-family: Arial, sans-serif;
   font-size: 11pt;
 
+  break-inside: auto;
+
+  & tr {
+    break-inside: avoid;
+    break-after: auto;
+  }
+
   & td {
     border: 1px solid black;
     vertical-align: top;
