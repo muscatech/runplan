@@ -94,8 +94,7 @@ export const Editable = <Type,>({ edit, formatValue=(v) => String(v), locked, on
           cursor: locked ? 'normal' : 'pointer',
           fontSize: !!variant ? undefined : 'inherit',
           fontWeight: 'inherit',
-          minHeight: '1em',
-          width: '100%'
+          minHeight: '1em'
         }}
         variant={variant}
       >
@@ -132,7 +131,10 @@ const renderEditableText = ({ onBlur, onChange, onFocus, onKeyUp, sx, value }: R
     onFocus={onFocus}
     onKeyUp={onKeyUp}
     size='small'
-    sx={sx}
+    sx={{
+      ...sx,
+      width: 'calc(100% - 8px)'
+    }}
     value={value}
   />
 );
