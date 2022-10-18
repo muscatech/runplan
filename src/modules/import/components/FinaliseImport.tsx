@@ -11,7 +11,7 @@ import { actions as dialogActions } from '../../dialogs';
 import { ImportStep, ItemTypeMapping, TeamCategoryMapping } from "../types";
 
 import { RenderedPlan } from "../../plan";
-import { MappingControl } from "./MappingControl";
+import { ItemMappingControl } from "./ItemMappingControl";
 import { setCurrentStep } from "../slice";
 import { TeamMappingControl } from "./TeamMappingControl";
 
@@ -71,7 +71,7 @@ export const FinaliseImport = () => {
       <DialogContent>
         <Inner>
           <Pane>
-            <MappingControl
+            <ItemMappingControl
               mapping={itemMapping}
               setMapping={setItemMapping}
             />

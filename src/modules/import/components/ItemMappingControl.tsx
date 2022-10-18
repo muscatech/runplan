@@ -61,7 +61,7 @@ interface Props {
   setMapping: (mapping: ItemTypeMapping) => void
 }
 
-export const MappingControl = ({ mapping, setMapping }: Props) => {
+export const ItemMappingControl = ({ mapping, setMapping }: Props) => {
   return (
     <Inner>
       <Typography>
