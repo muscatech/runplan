@@ -5,7 +5,7 @@ import type { Person } from "../interfaces";
 
 const PersonCell = styled.td`
   border: 1px solid black;
-  padding: ${ props => props.theme.spacing(1) };
+  padding: ${ props => props.theme.spacing(0.75) };
   vertical-align: top;
 `;
 

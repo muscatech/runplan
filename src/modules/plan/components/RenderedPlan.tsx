@@ -27,9 +27,11 @@ export const RenderedPlan = ({ additionalTypes, editable, plan }: Props): JSX.El
       <Paper
         sx={{
           minHeight: '60vh',
+          fontSize: '11pt',
           padding: [2, 8],
           '@media print': {
-            boxShadow: 0
+            boxShadow: 0,
+            padding: 0
           },
           maxWidth: '210mm'
         }}
@@ -39,7 +41,7 @@ export const RenderedPlan = ({ additionalTypes, editable, plan }: Props): JSX.El
           onChange={(newName) => newName !== '' && commitUpdate({ ...plan, name: String(newName) })}
           sx={{ textAlign: 'right', width: '100%' }}
           value={plan.name}
-          variant="h4"
+          variant="h5"
         />
         <EditableDate
           dateFormat='D MMMM YYYY'

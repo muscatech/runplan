@@ -16,6 +16,7 @@ const createTypeStyle = (type: ItemType) =>  ({ backgroundColor: type.color, fon
 const TYPOGRAPHY_STYLE = {
   fontFamily: 'inherit',
   fontWeight: 'inherit',
+  fontSize: 'inherit',
   padding: ITEM_CELL_PADDING
 };
 

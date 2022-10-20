@@ -37,6 +37,7 @@ const ItemsTable = styled.table`
   & td {
     border: 1px solid black;
     vertical-align: top;
+    padding: ${ props => props.theme.spacing(0.1) };
   }
 
 `;
@@ -113,8 +114,8 @@ export const RenderedPlanItems = ({ additionalTypes = [], editable, onAddItem, o
       <colgroup>
         <col width='10%' />
         <col width='15%' />
-        <col width='55%' />
-        <col width='20%' />
+        <col />
+        <col style={{ minWidth: '15%', maxWidth: '20%' }} />
       </colgroup>
       <tbody>
         {

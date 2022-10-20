@@ -52,7 +52,7 @@ export const RenderedPlanPeople = ({ editable, onUpdate, people }: Props) => {
   Object.values(peopleByCategory).forEach(
     people => {
       people.sort(
-        (a, b) => ((a.role.sortKey || 0) - (b.role.sortKey || 0)) || a.role.name.localeCompare(b.role.name)
+        (a, b) => ((a.role.sortKey || 0) - (b.role.sortKey || 0)) || a.role.name.localeCompare(b.role.name) || a.name.localeCompare(b.name)
       );
 
       people.forEach(
