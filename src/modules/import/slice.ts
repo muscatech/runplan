@@ -21,6 +21,7 @@ const importSlice = createSlice({
     },
     setToken: (state: ImportState, action: PayloadAction<AuthToken>) => {
       state.auth = action.payload;
+      state.currentStep = ImportStep.AUTH_TOKEN_OBTAINED;
     },
     selectServiceType: (state: ImportState, action: PayloadAction<number>) => {
       state.selectedServiceType = action.payload;

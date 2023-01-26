@@ -15,14 +15,14 @@ export const LoginPage = () : JSX.Element => {
 
   useEffect(
     () => {
-      if (authToken) {
+      if (authToken && currentStep === ImportStep.BEGIN) {
         dispatch(setCurrentStep(ImportStep.AUTH_TOKEN_OBTAINED));
       }
-      else if (currentStep === ImportStep.NOT_STARTED) {
+      else if (!authToken && currentStep === ImportStep.NOT_STARTED) {
         performPCOLogin(dispatch);
       }
     },
-    [authToken]
+    [authToken, currentStep]
   );
 
   if (!authToken) {
@@ -30,7 +30,7 @@ export const LoginPage = () : JSX.Element => {
       <>
         <DialogTitle>Import service</DialogTitle>
         <DialogContent>
-          <p>You will need to <a href={PCO_AUTH_URL}>log in</a></p>
+          <p>You will need to <a href={PCO_AUTH_URL}>log in</a> to Planning Center to import services.</p>
         </DialogContent>
       </>
     );

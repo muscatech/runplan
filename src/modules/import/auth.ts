@@ -21,7 +21,6 @@ export const performPCOLogin = (dispatch: Dispatch<AnyAction>) => {
             body => {
               if (body.access_token) {
                 dispatch(setToken(body));
-                dispatch(setCurrentStep(ImportStep.AUTH_TOKEN_OBTAINED));
               }
               else {
                 fail();
