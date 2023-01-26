@@ -10,7 +10,7 @@ const PeopleTable = styled.table`
 
   margin-top: ${ props => props.theme.spacing(2) };
   font-family: Arial, sans-serif;
-  font-size: 10pt;
+  font-size: 9pt;
 
   & > td {
     vertical-align: top;

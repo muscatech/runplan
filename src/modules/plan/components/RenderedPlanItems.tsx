@@ -25,7 +25,7 @@ const ItemsTable = styled.table`
   margin-top: ${ props => props.theme.spacing(2) };
 
   font-family: Arial, sans-serif;
-  font-size: 11pt;
+  font-size: 10pt;
 
   break-inside: auto;
 
@@ -112,10 +112,10 @@ export const RenderedPlanItems = ({ additionalTypes = [], editable, onAddItem, o
   return (
     <ItemsTable>
       <colgroup>
-        <col width='10%' />
-        <col width='15%' />
+        <col style={{ width: '10%' }} />
+        <col style={{ width: '15%' }} />
         <col />
-        <col style={{ minWidth: '15%', maxWidth: '20%' }} />
+        <col style={{ width: '20%' }} />
       </colgroup>
       <tbody>
         {
