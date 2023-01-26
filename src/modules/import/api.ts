@@ -59,9 +59,14 @@ const baseQueryWithReauth: BaseQueryFn<
     if (refreshResult.ok) {
       // store the new token
       const json = await refreshResult.json();
-      api.dispatch(setToken(json));
-      // retry the initial query
-      result = await baseQuery(args, api, extraOptions);
+      if (!json.error) {
+        api.dispatch(setToken(json));
+        // retry the initial query
+        result = await baseQuery(args, api, extraOptions);
+      }
+      else {
+        api.dispatch(reset());
+      }
     } else {
       api.dispatch(reset());
     }
