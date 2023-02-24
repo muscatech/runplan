@@ -15,7 +15,7 @@ export const LoginPage = () : JSX.Element => {
 
   useEffect(
     () => {
-      if (authToken && currentStep === ImportStep.BEGIN) {
+      if (authToken) {
         dispatch(setCurrentStep(ImportStep.AUTH_TOKEN_OBTAINED));
       }
       else if (!authToken && currentStep === ImportStep.NOT_STARTED) {
