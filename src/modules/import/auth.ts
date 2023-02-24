@@ -16,6 +16,7 @@ export const performPCOLogin = (dispatch: Dispatch<AnyAction>) => {
     dispatch(setCurrentStep(ImportStep.BEGIN));
     fetch(`${OAUTH_PROXY_URL}/token?code=${code}&redirect_uri=${REDIRECT_URI}`).then(
       response => {
+        window.history.replaceState(null, '', '?');
         if (response.ok) {
           response.json().then(
             body => {
